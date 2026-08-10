@@ -1,0 +1,19 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags menu_tags %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{% page_attribute "page_title" %}</h1>
+    <p class="page-lede">{% placeholder "Page Lede" %}</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% show_breadcrumb 0 "includes/breadcrumb.html" %}
+  {% placeholder "Page Content" %}
+  {% placeholder "Archive Results" %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+<article class="article card-container snippet event" typeof="Event">
+  <div class="card card--event">
+    <div aria-hidden="true" class="meta-item event-date">
+      <span class="event-month">{{ event.date|date:"M" }}</span>
+      <span class="event-day">{{ event.date|date:"j" }}</span>
+    </div>
+    <div class="card-body">
+      <h2 class="article-title card-title" property="name">
+        <a href="{{ event.url }}" class="card-link">{{ event.title }}</a>
+      </h2>
+      <div class="article-meta">
+        <p class="meta-item event-time">
+          <svg class="icon" data-icon="clock" aria-hidden="true" focusable="false"><use xlink:href="#icon-clock"></use></svg>
+          <time property="startDate" datetime="{{ event.date|date:"c" }}">
+            <span class="date-string">{{ event.date|date:"D, N j" }}</span>{% if event.start_time %} at {{ event.start_time|time:"g:i A" }}{% endif %}
+          </time>
+          {% if event.end_date and event.end_date != event.date %}
+            &ndash; <time property="endDate" datetime="{{ event.end_date|date:"c" }}">{{ event.end_date|date:"D, N j" }}</time>
+          {% elif event.end_time %}
+            &ndash; <time property="endDate">{{ event.end_time|time:"g:i A" }}</time>
+          {% endif %}
+        </p>
+        {% with location_display=event.location.name|default:event.location.address|default:"" %}
+        {% if location_display %}
+        <p class="meta-item event-location" property="location" typeof="Place">
+          <svg class="icon" data-icon="map-pin" aria-hidden="true" focusable="false"><use xlink:href="#icon-map-pin"></use></svg>
+          <span property="name address">{{ location_display }}</span>
+        </p>
+        {% endif %}
+        {% endwith %}
+        {% if event.recurring %}<p class="meta-item"><span class="badge">Recurring</span></p>{% endif %}
+      </div>
+    </div>
+  </div>
+</article>

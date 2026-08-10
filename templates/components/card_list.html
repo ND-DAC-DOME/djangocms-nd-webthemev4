@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<div class="flex-auto">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <p class="notice">Add cards here.</p>
+  {% endfor %}
+</div>

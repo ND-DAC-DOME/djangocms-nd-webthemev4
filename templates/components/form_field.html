@@ -1,0 +1,42 @@
+<div class="form-field">
+  {% if instance.field_type == "textarea" %}
+  {% if instance.label %}<label for="{{ instance.field_id }}">{{ instance.label }}</label>{% endif %}
+  <textarea id="{{ instance.field_id }}" rows="3" placeholder="{{ instance.input_placeholder }}"{% if instance.required %} required{% endif %}></textarea>
+  {% elif instance.field_type == "select" %}
+  {% if instance.label %}<label for="{{ instance.field_id }}">{{ instance.label }}</label>{% endif %}
+  <select class="field" id="{{ instance.field_id }}" name="{{ instance.field_id }}"{% if instance.required %} required{% endif %}>
+    {% for option in instance.option_list %}
+    <option value="{{ option }}">{{ option }}</option>
+    {% endfor %}
+  </select>
+  {% elif instance.field_type == "checkbox_list" %}
+  {% if instance.label %}<p>{{ instance.label }}</p>{% endif %}
+  <ul class="no-bullets field checkbox-list">
+    {% for option in instance.option_list %}
+    <li>
+      <input id="{{ instance.field_id }}-{{ forloop.counter0 }}" type="checkbox" name="{{ instance.field_id }}" value="{{ option }}">
+      <label for="{{ instance.field_id }}-{{ forloop.counter0 }}">{{ option }}</label>
+    </li>
+    {% endfor %}
+  </ul>
+  {% elif instance.field_type == "radio_list" %}
+  {% if instance.label %}<p>{{ instance.label }}</p>{% endif %}
+  <ul class="field no-bullets radio-list" id="{{ instance.field_id }}">
+    {% for option in instance.option_list %}
+    <li>
+      <input id="{{ instance.field_id }}-{{ forloop.counter0 }}" type="radio" name="{{ instance.field_id }}" value="{{ option }}">
+      <label for="{{ instance.field_id }}-{{ forloop.counter0 }}">{{ option }}</label>
+    </li>
+    {% endfor %}
+  </ul>
+  {% elif instance.field_type == "switch" %}
+  <label class="switch field">
+    <input id="{{ instance.field_id }}" type="checkbox" name="{{ instance.field_id }}">
+    <span class="slider"></span>
+  </label>
+  {% if instance.label %}<label for="{{ instance.field_id }}">{{ instance.label }}</label>{% endif %}
+  {% else %}
+  {% if instance.label %}<label for="{{ instance.field_id }}">{{ instance.label }}</label>{% endif %}
+  <input class="field" id="{{ instance.field_id }}" name="{{ instance.field_id }}" type="{{ instance.field_type }}" placeholder="{{ instance.input_placeholder }}"{% if instance.required %} required{% endif %}>
+  {% endif %}
+</div>

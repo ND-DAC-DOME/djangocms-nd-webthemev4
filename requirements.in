@@ -1,0 +1,7 @@
+djangocms-frontend>=2.0.0
+django-filer
+djangocms-text
+djangocms-simple-admin-style
+django-parler
+djangocms-alias
+

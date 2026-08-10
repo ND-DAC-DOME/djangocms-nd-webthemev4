@@ -1,0 +1,3 @@
+<li{% if instance.page == request.current_page %} class="active"{% endif %}>
+  <a href="{{ instance.page.get_absolute_url }}"{% if instance.page == request.current_page %} class="current" aria-current="page"{% endif %}>{{ instance.text|default:instance.page.get_page_title }}</a>
+</li>

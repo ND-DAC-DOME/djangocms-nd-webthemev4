@@ -1,0 +1,12 @@
+<div class="page-secondary full-width">
+  <div class="grid grid-md-2 align-center">
+    {% if instance.image %}
+    <figure class="section-media"><img src="{{ instance.image.url }}" alt="{{ instance.title|default:"" }}"></figure>
+    {% endif %}
+    <div class="section-content">
+      {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+      {% if instance.caption %}<p>{{ instance.caption }}</p>{% endif %}
+      {% include "plugins/_ribbon_link.html" with internal_link=instance.internal_link external_link=instance.external_link link_text=instance.link_text %}
+    </div>
+  </div>
+</div>

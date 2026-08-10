@@ -1,0 +1,12 @@
+<li class="timeline-item">
+  <figure class="timeline-image">
+    {% if instance.image %}
+    <img src="{{ instance.image.url }}" alt="{{ instance.image_alt }}">
+    {% endif %}
+  </figure>
+  <div class="timeline-body">
+    <p class="timeline-title">{{ instance.title }}</p>
+    {% if instance.date %}<p class="timeline-date">{{ instance.date }}</p>{% endif %}
+    {% if instance.body %}{{ instance.body|safe }}{% endif %}
+  </div>
+</li>

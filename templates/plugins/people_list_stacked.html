@@ -1,0 +1,8 @@
+{% include "includes/_plugin_heading.html" %}
+<ol class="no-bullets cards-list">
+  {% for person in instance.people %}
+  <li>{% include "plugins/_card_person.html" with horizontal=True job_title=person.position %}</li>
+  {% empty %}
+  <li class="notice">No people found.</li>
+  {% endfor %}
+</ol>

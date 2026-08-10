@@ -1,0 +1,39 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags menu_tags %}
+
+{% block page_header %}{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% show_breadcrumb 0 "includes/breadcrumb.html" %}
+  <article class="article" typeof="NewsArticle">
+    <header class="article-header">
+      <h1 property="headline" class="page-title entry-title">{% page_attribute "page_title" %}</h1>
+      <div class="meta-share-group">
+        <div class="meta">
+          <p class="publish-info">
+            <time property="datePublished" class="published">
+              <span class="icon" data-icon="calendar"></span>
+              {% placeholder "Publish Date" %}
+            </time>
+          </p>
+          <p class="author" property="author" typeof="Person">
+            <span class="icon" data-icon="user"></span>
+            <span property="name">{% placeholder "Author" %}</span>
+          </p>
+          <link property="publisher" resource="#siteorg">
+        </div>
+        <div class="social-share"></div>
+      </div>
+    </header>
+    <div class="article-content entry-content" property="mainEntityOfPage">
+      {% placeholder "Story Body" %}
+    </div>
+    <footer>
+      <div class="meta-share-group">
+        <div class="social-share"></div>
+      </div>
+    </footer>
+  </article>
+</div>
+{% endblock %}

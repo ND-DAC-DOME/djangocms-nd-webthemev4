@@ -1,0 +1,3 @@
+{% if internal_link or external_link %}
+<p><a href="{% if internal_link %}{{ internal_link.get_absolute_url }}{% else %}{{ external_link }}{% endif %}" type="button" class="btn btn--more"{% if not internal_link %} target="_blank" rel="noopener"{% endif %}>{{ link_text|default:"Learn more" }}</a></p>
+{% endif %}

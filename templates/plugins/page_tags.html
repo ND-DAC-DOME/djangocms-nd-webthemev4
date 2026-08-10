@@ -1,0 +1,7 @@
+{% if request.current_page.pagepreviewextension.tags.all %}
+<ul class="no-bullets list-inline page-tags">
+  {% for tag in request.current_page.pagepreviewextension.tags.all %}
+  <li><span class="tag">{{ tag.tag }}</span></li>
+  {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,4 @@
+<details class="accordion"{% if instance.open_by_default %} open{% endif %}>
+  <summary>{{ instance.title }}</summary>
+  <div>{{ instance.body|safe }}</div>
+</details>

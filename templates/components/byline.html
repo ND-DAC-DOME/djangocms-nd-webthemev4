@@ -1,0 +1,11 @@
+<div class="byline">
+  {% if instance.image %}
+  <figure class="avatar avatar--xs byline-image"><img alt="" src="{{ instance.image.url }}"></figure>
+  {% endif %}
+  <div class="byline-body">
+    <p class="byline-title person-name">
+      <a class="byline-link" href="{{ instance.get_href }}">{{ instance.name }}</a>
+    </p>
+    {% if instance.title %}<p class="person-title">{{ instance.title }}</p>{% endif %}
+  </div>
+</div>

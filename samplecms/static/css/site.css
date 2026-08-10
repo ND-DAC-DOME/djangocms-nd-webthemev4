@@ -1,0 +1,137 @@
+/*
+ * Site overrides for NDT 4.0 — keep custom rules in @layer site.
+ * Theme cascade: base, theme, utilities, print, site.
+ */
+@layer site {
+  /* NDT4 dark mode sets html/body to #091b34 while footer, cards, and other
+     surfaces use --brand-blue (#0c2340). Align the page canvas so those
+     surfaces do not show a darker frame at the edges. */
+  html:has(body[data-theme="dark"]),
+  body[data-theme="dark"],
+  html[data-theme="dark"] {
+    background-color: var(--brand-blue);
+  }
+
+  /* CMS toolbar spacing when editing */
+  .cms-toolbar-expanded .site-header {
+    margin-block-start: 0;
+  }
+
+  /* Empty placeholder affordance in edit mode */
+  .cms-placeholder {
+    min-block-size: 0;
+  }
+
+  /* Person contact list visibility helpers (JS toggles) */
+  .person-contact-hidden {
+    display: none;
+  }
+
+  /* Byline links use a full-size ::after hit target (see NDT .byline rules).
+     The global [href^=http]:after rule also sets external-link.svg as a
+     background, which tiles at auto size and renders as gold blobs. */
+  .byline .byline-link::after,
+  .byline .byline-title a::after {
+    background-image: none !important;
+  }
+
+  /* Screen page header without a hero image: push title below site chrome.
+     NDT page-header--screen expects a full-bleed image; an empty figure leaves
+     the page title in the same grid row as the site header. */
+  .page-header--screen:not(:has(.page-image img, .page-image video)) .page-title-wrapper {
+    padding-block-start: max(10rem, 12vh);
+  }
+
+  .page-header--screen .page-image:not(:has(img, video)) {
+    display: none;
+  }
+
+  /* Collapse empty primary band on home when placeholders are cleared */
+  .page-primary.full-width:not(:has(> *)) {
+    display: none;
+  }
+
+  /*
+   * NDT .section adds ~5rem vertical margin. Reserve it for true page breaks;
+   * plugins inside page regions use section-* sub-classes without .section.
+   */
+  .page-primary .section,
+  .page-secondary .section,
+  .page-secondary.full-width > .section {
+    --section-margin: 0;
+    margin-block: 0;
+  }
+
+  /* Full-bleed secondary bands: NDT defaults to 4–7rem top margin */
+  .page-secondary.full-width {
+    margin-block-start: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-secondary.full-width {
+      margin-block-start: 2.5rem;
+    }
+  }
+
+  /* Modest rhythm between stacked placeholders and plugins */
+  .page-primary > :not(:first-child),
+  .page-secondary > :not(:first-child) {
+    margin-block-start: 2rem;
+  }
+
+  .page-primary .section-title,
+  .page-secondary .section-title {
+    margin-block-start: 0;
+  }
+
+  .page-primary .section-intro,
+  .page-secondary .section-intro {
+    margin-block-end: 1.5rem;
+  }
+
+  /*
+   * NDT assigns grid-column: container to .section inside page-secondary.full-width.
+   * Stacked banners, ribbons, and similar plugins render section-intro (or other
+   * blocks) as direct children — without this they collapse to a single subgrid track.
+   */
+  .page-secondary.full-width > :not(.section):not(.section-wrapper) {
+    grid-column: container;
+  }
+
+  /*
+   * nav-top--false sidenav pages: NDT assigns sidebar to grid-column 2/span 3
+   * (column 3/span 3 at xxl) and leaves the first subgrid track empty.
+   * Pull the sidebar to container-xl-start and place header/primary at
+   * container-sm-start. Keep NDT's margin-inline-end on the sidebar.
+   */
+  @media (min-width: 60em) {
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-sidebar {
+      grid-column: container-xl-start / span 3;
+    }
+
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-header,
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-primary,
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-secondary {
+      grid-column: container-sm-start / -2;
+    }
+  }
+
+  @media (min-width: 100em) {
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-sidebar {
+      grid-column: container-xl-start / span 3;
+    }
+  }
+
+  /* Hide the sidebar column when Side Navigation has no links. */
+  .page-sidebar:not(:has(#nav_sub li)) {
+    display: none;
+  }
+
+  @media (min-width: 80em) {
+    .site-content:has(.page-sidebar:not(:has(#nav_sub li))) .page-header,
+    .site-content:has(.page-sidebar:not(:has(#nav_sub li))) .page-primary,
+    .site-content:has(.page-sidebar:not(:has(#nav_sub li))) .page-secondary {
+      grid-column: container-xl;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<article class="article snippet card-container" typeof="NewsArticle">
+  <div class="{{ instance.card_class }}">
+    {% if instance.image %}
+    <figure class="card-image"><img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}"></figure>
+    {% endif %}
+    <div class="card-body">
+      {% if instance.label %}<p class="card-label">{{ instance.label }}</p>{% endif %}
+      <h2 class="article-title card-title" property="headline">
+        <a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+      </h2>
+      {% if instance.summary %}<div class="card-summary">{{ instance.summary|safe }}</div>{% endif %}
+      {% if instance.author_name or instance.publish_date %}
+      <div class="article-meta">
+        {% if instance.author_name %}
+        <div property="author" typeof="Person">
+          <meta property="name" content="{{ instance.author_name }}">
+        </div>
+        {% endif %}
+        {% if instance.publish_date %}
+        <p class="meta-item publish-info">
+          <time property="datePublished" datetime="{{ instance.publish_date|date:'c' }}">{{ instance.publish_date|date:"N j, Y" }}</time>
+        </p>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</article>

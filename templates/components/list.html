@@ -1,0 +1,19 @@
+{% load cms_tags %}
+{% if instance.label %}<p class="list-label">{{ instance.label }}</p>{% endif %}
+{% if instance.tag_name == "ol" %}
+<ol{% if instance.list_class %} class="{{ instance.list_class }}"{% endif %}>
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li>Add list items here.</li>
+  {% endfor %}
+</ol>
+{% else %}
+<ul{% if instance.list_class %} class="{{ instance.list_class }}"{% endif %}>
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li>Add list items here.</li>
+  {% endfor %}
+</ul>
+{% endif %}

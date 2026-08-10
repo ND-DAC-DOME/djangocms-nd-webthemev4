@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<figure class="{{ instance.figure_class }}">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <img src="" alt="Add images here.">
+  {% endfor %}
+</figure>

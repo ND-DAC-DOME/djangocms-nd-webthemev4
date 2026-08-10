@@ -1,0 +1,11 @@
+<div class="card-container">
+  <div class="card card--featured">
+    {% if instance.image %}
+    <figure class="card-image"><img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}"></figure>
+    {% endif %}
+    <div class="card-body">
+      {% if instance.label %}<p class="card-label"><span>{{ instance.label }}</span></p>{% endif %}
+      <h2 class="card-title"><a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a></h2>
+    </div>
+  </div>
+</div>

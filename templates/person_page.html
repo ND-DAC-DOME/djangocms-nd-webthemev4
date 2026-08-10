@@ -1,0 +1,33 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags menu_tags %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{% page_attribute "page_title" %}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% show_breadcrumb 0 "includes/breadcrumb.html" %}
+  <p class="person-title"><em>{% placeholder "Person Title" %}</em></p>
+  <div class="page-primary grid grid-md-3">
+    <div class="person-photo order-md-2 text-center">
+      <p class="image-circle">{% placeholder "Profile Picture" %}</p>
+      <dl class="list-grid">
+        <dt id="office-title" class="person-contact-hidden">Office</dt>
+        <dd id="office-display" class="person-contact-hidden">{% placeholder "Address" %}</dd>
+        <dt id="phone-title" class="person-contact-hidden">Phone</dt>
+        <dd id="phone-display" class="person-contact-hidden">{% placeholder "Phone" %}</dd>
+        <dt id="email-title" class="person-contact-hidden">Email</dt>
+        <dd id="email-display" class="person-contact-hidden">{% placeholder "Email" %}</dd>
+      </dl>
+    </div>
+    <div class="person-bio span-md-2">
+      {% placeholder "About" %}
+    </div>
+  </div>
+</div>
+{% endblock %}

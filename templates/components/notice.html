@@ -1,0 +1,4 @@
+<div class="{{ instance.notice_class }}" role="alert">
+  {% if instance.heading %}<p class="notice-heading">{{ instance.heading }}</p>{% endif %}
+  {% if instance.body %}<div class="notice-content">{{ instance.body|safe }}</div>{% endif %}
+</div>

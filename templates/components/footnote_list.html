@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<ol class="list--footnote">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li>Add footnotes here.</li>
+  {% endfor %}
+</ol>

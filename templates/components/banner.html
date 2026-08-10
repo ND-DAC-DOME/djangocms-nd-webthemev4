@@ -1,0 +1,123 @@
+{% load cms_tags %}
+{% if instance.layout == "cards" %}
+<div class="page-secondary full-width">
+  <div class="{{ instance.section_intro_class }}">
+    {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+    {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+    {% if instance.link_id or instance.external_link %}
+    <p><a href="{{ instance.get_href }}" type="button" class="btn btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+    {% endif %}
+  </div>
+  <div class="flex-auto">
+    {% for plugin in instance.child_plugin_instances %}
+    {% render_plugin plugin %}
+    {% empty %}
+    <p class="notice">Add cards here.</p>
+    {% endfor %}
+  </div>
+</div>
+{% elif instance.layout == "accordion" %}
+<div class="page-secondary full-width">
+  <div class="{{ instance.section_intro_class }} col--sm">
+    {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+    {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+  </div>
+  <div class="details-group grid grid-ml-2">
+    <div class="order-ml-1 details-group--aside-list">
+      {% for plugin in instance.child_plugin_instances %}
+      {% with item=plugin %}
+      {% if item.image %}
+      <figure class="details-group--aside section-media"><img src="{{ item.image.url }}" alt="{{ item.alt_text|default:item.title }}"></figure>
+      {% endif %}
+      {% endwith %}
+      {% endfor %}
+    </div>
+    <div class="accordion-list">
+      {% for plugin in instance.child_plugin_instances %}
+      {% render_plugin plugin %}
+      {% empty %}
+      <p class="notice">Add accordion panels here.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% elif instance.layout == "gallery" %}
+<div class="page-secondary full-width">
+  <div class="section-content grid grid-ml-2 grid-gap--lg align-end">
+    {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+    {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+    {% if instance.link_id or instance.external_link %}
+    <p><a href="{{ instance.get_href }}" type="button" class="btn btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+    {% endif %}
+  </div>
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <p class="notice">Add a gallery plugin here.</p>
+  {% endfor %}
+</div>
+{% elif instance.layout == "mosaic" or instance.layout == "tiled" %}
+<div class="page-secondary full-width">
+  <div class="grid grid-md-2 align-center">
+    <figure class="section-image image--{{ instance.layout }}">
+      {% for plugin in instance.child_plugin_instances %}
+      {% render_plugin plugin %}
+      {% empty %}
+      {% if instance.image %}<img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}">{% endif %}
+      {% endfor %}
+    </figure>
+    <div class="section-content">
+      {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+      {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+      {% if instance.link_id or instance.external_link %}
+      <p><a href="{{ instance.get_href }}" type="button" class="btn btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% elif instance.layout == "stacked" %}
+<div class="page-secondary full-width">
+  <div class="section-intro text-left">
+    {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+    {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+    {% if instance.link_id or instance.external_link %}
+    <p><a href="{{ instance.get_href }}" type="button" class="btn btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+    {% endif %}
+  </div>
+  {% if instance.image %}
+  <img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}">
+  {% endif %}
+</div>
+{% elif instance.layout == "full" %}
+<div class="page-secondary full-width">
+  <div class="section section--screen grid grid-md-2 bg--dark">
+    {% if instance.image %}
+    <figure class="section-media section-media--bg bg--gradient bg--brand-blue">
+      <img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}">
+    </figure>
+    {% endif %}
+    <div class="section-body">
+      {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+      {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+      {% if instance.link_id or instance.external_link %}
+      <p><a href="{{ instance.get_href }}" type="button" class="btn btn--cta btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="page-secondary full-width">
+  <div class="grid grid-md-2 align-center">
+    {% if instance.image %}
+    <figure class="section-media"><img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}"></figure>
+    {% endif %}
+    <div class="section-content">
+      {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+      {% if instance.caption %}<div>{{ instance.caption|safe }}</div>{% endif %}
+      {% if instance.link_id or instance.external_link %}
+      <p><a href="{{ instance.get_href }}" type="button" class="btn btn--more"{% include "components/_link_attrs.html" %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}

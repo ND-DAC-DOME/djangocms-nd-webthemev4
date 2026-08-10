@@ -1,0 +1,16 @@
+<ul class="nav-level-1">
+  {% for child in children %}
+  <li class="nav-level-1{% if child.selected or child.ancestor %} active{% endif %}">
+    <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}"{% if child.selected %} class="current"{% endif %}>{{ child.get_menu_title }}</a>
+    {% if child.children %}
+    <ul class="nav-level-2">
+      {% for grandchild in child.children %}
+      <li class="nav-level-2{% if grandchild.selected %} active{% endif %}">
+        <a href="{{ grandchild.attr.redirect_url|default:grandchild.get_absolute_url }}"{% if grandchild.selected %} class="current"{% endif %}>{{ grandchild.get_menu_title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

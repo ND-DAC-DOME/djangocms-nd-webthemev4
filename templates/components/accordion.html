@@ -1,0 +1,10 @@
+{% load cms_tags %}
+<div class="accordion-list">
+  {% for plugin in instance.child_plugin_instances %}
+  {% with parent=instance %}
+  {% render_plugin plugin %}
+  {% endwith %}
+  {% empty %}
+  <p class="notice">Add accordion items here.</p>
+  {% endfor %}
+</div>

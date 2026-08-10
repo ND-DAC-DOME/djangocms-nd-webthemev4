@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<ul class="{{ instance.group_class }}">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li><span class="btn">Add buttons here.</span></li>
+  {% endfor %}
+</ul>

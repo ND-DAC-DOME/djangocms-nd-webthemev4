@@ -1,0 +1,28 @@
+{% extends "base_ndt.html" %}
+
+{% block title %}{{ title }} | {{ site_name }} | University of Notre Dame{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{{ title }}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  <ol class="no-bullets list-events">
+    {% for event in events %}
+    <li class="card horizontal">
+      <div class="card-body">
+        <h3 class="card-title"><a href="{{ event.page.get_absolute_url }}">{{ event.name }}</a></h3>
+        <time>{{ event.start|date:"N j, Y" }}</time>
+      </div>
+    </li>
+    {% empty %}
+    <li>No events found in this series.</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+<a href="/archive/{% if instance.optional_tags.all %}{{ instance.get_tags }}/{% endif %}" type="button" class="btn btn--tertiary archive-link">
+  <svg class="icon" data-icon="history" aria-hidden="true" focusable="false"><use xlink:href="#icon-history"></use></svg>
+  {{ instance.text }}
+</a>

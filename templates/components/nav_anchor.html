@@ -1,0 +1,10 @@
+{% load cms_tags %}
+<nav id="nav-anchor-{{ instance.pk }}" class="nav-anchor" aria-label="{{ instance.label }}">
+  <ul>
+    {% for plugin in instance.child_plugin_instances %}
+    {% render_plugin plugin %}
+    {% empty %}
+    <li><a href="#">Add anchor links here.</a></li>
+    {% endfor %}
+  </ul>
+</nav>

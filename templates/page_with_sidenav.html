@@ -1,0 +1,29 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags %}
+
+{% block wrapper_class %} nav-top--false{% endblock %}
+
+{% block site_header %}{% include "includes/site_header_sidenav.html" %}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{% page_attribute "page_title" %}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% placeholder "Page Content" %}
+</div>
+<div class="page-sidebar">
+  <nav class="nav-site nav-site--section" aria-label="Section">
+    <div id="nav_sub">
+      <ul class="nav-level-1 depth_1">
+        {% placeholder "Side Navigation" %}
+      </ul>
+    </div>
+  </nav>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div id="{{ instance.item_id }}" class="faq-item" property="mainEntity" typeof="Question">
+  <dt class="faq-q" property="name">{{ instance.question }}</dt>
+  <dd class="faq-a" property="acceptedAnswer" typeof="Answer">
+    <div class="faq-a-text" property="text">{{ instance.answer|safe }}</div>
+    {% if parent.show_back_to_top %}
+    <p class="link-top"><a href="#{{ parent.anchors_id }}">Back to top</a></p>
+    {% endif %}
+  </dd>
+</div>

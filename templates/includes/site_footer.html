@@ -1,0 +1,88 @@
+<footer id="footer" class="site-footer" role="contentinfo">
+  <div class="footer-org" typeof="Organization" resource="#siteorg">
+    <meta property="parentOrganization" resource="#parentorg" content="University of Notre Dame">
+    {% if parent_unit %}
+    <ul class="footer-breadcrumbs list-unstyled">
+      <li><a href="{{ parent_unit_url|default:'https://www.nd.edu/' }}">{{ parent_unit }}</a></li>
+    </ul>
+    {% endif %}
+    <p><a href="/" class="site-link" property="url"><span property="name">{{ site_name }}</span></a></p>
+    <div class="footer-contacts">
+      <p class="contact-info">
+        <span class="address" property="address" typeof="PostalAddress">
+          {% if address %}
+          <span property="streetAddress">{{ address|linebreaksbr }}</span>
+          {% else %}
+          <span property="addressLocality">Notre Dame</span>,
+          <span property="addressRegion">IN</span>
+          <span property="postalCode">46556</span>
+          <span property="addressCountry">USA</span>
+          {% endif %}
+        </span>
+        {% if phone %}<span class="footer-phone" property="telephone" content="+1 {{ phone }}">Phone <a href="tel:{{ phone|cut:' ' }}">{{ phone }}</a></span>{% endif %}
+        {% if fax %}<span class="footer-fax" property="faxNumber" content="+1 {{ fax }}">Fax {{ fax }}</span>{% endif %}
+        {% if email %}<span class="footer-email" property="email"><a rel="noopener" href="mailto:{{ email }}">{{ email }}</a></span>{% endif %}
+      </p>
+      {% if facebook_link or twitter_link or instagram_link or youtube_link or linkedin_link %}
+      <nav class="social" aria-label="{{ site_name }} social media navigation" vocab="">
+        <ul>
+          {% if facebook_link %}<li><a class="soc-facebook" href="{{ facebook_link }}" rel="noopener" aria-label="{{ site_name }} on Facebook"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-facebook"></use></svg> Facebook</a></li>{% endif %}
+          {% if twitter_link %}<li><a class="soc-twitter" href="{{ twitter_link }}" rel="noopener" aria-label="{{ site_name }} on X/Twitter"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-twitter-x"></use></svg> X/Twitter</a></li>{% endif %}
+          {% if instagram_link %}<li><a class="soc-instagram" href="{{ instagram_link }}" rel="noopener" aria-label="{{ site_name }} on Instagram"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-instagram"></use></svg> Instagram</a></li>{% endif %}
+          {% if youtube_link %}<li><a class="soc-youtube" href="{{ youtube_link }}" rel="noopener" aria-label="{{ site_name }} on YouTube"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-youtube"></use></svg> YouTube</a></li>{% endif %}
+          {% if linkedin_link %}<li><a class="soc-linkedin" href="{{ linkedin_link }}" rel="noopener" aria-label="{{ site_name }} on LinkedIn"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-linkedin"></use></svg> LinkedIn</a></li>{% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+    <div property="logo" typeof="ImageObject">
+      <meta property="url" content="https://static.nd.edu/images/webclips/default/webclip-60.png">
+    </div>
+  </div>
+  <div class="footer-nd" property="parentOrganization" typeof="CollegeOrUniversity" resource="#parentorg">
+    <meta property="name" content="University of Notre Dame">
+    <a href="https://www.nd.edu/" class="mark-footer" property="url logo" typeof="ImageObject" aria-label="University of Notre Dame">
+      <svg width="200" height="48" aria-hidden="true"><use xlink:href="#academic-mark"></use></svg>
+    </a>
+    <div class="footer-parent-links">
+      <nav class="footer--links" aria-label="Notre Dame network navigation">
+        <ul>
+          <li><a href="https://search.nd.edu/" aria-label="Search Notre Dame">Search</a></li>
+          <li><a href="https://news.nd.edu/" aria-label="Notre Dame News">News</a></li>
+          <li><a href="https://events.nd.edu/" aria-label="Notre Dame Events">Events</a></li>
+          <li><a href="https://www.nd.edu/visit/" aria-label="Visit Notre Dame">Visit</a></li>
+          <li><a href="https://mobile.nd.edu/" aria-label="Notre Dame Mobile App">Mobile App</a></li>
+          <li><a href="https://www.nd.edu/about/accessibility/" aria-label="Notre Dame Accessibility Information">Accessibility</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-social" aria-label="Notre Dame social media navigation" vocab="">
+        <ul>
+          <li><a class="soc-facebook" href="https://www.facebook.com/notredame/" rel="noopener" aria-label="Notre Dame on Facebook"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-facebook"></use></svg> Facebook</a></li>
+          <li><a class="soc-twitter" href="https://twitter.com/NotreDame/" rel="noopener" aria-label="Notre Dame on X/Twitter"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-twitter-x"></use></svg> X/Twitter</a></li>
+          <li><a class="soc-instagram" href="https://www.instagram.com/notredame/" rel="noopener" aria-label="Notre Dame on Instagram"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-instagram"></use></svg> Instagram</a></li>
+          <li><a class="soc-youtube" href="https://www.youtube.com/user/NDdotEDU" rel="noopener" aria-label="Notre Dame on YouTube"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-youtube"></use></svg> YouTube</a></li>
+          <li><a class="soc-linkedin" href="https://www.linkedin.com/school/university-of-notre-dame/" rel="noopener" aria-label="Notre Dame on LinkedIn"><svg class="icon" width="16" height="16" aria-hidden="true"><use xlink:href="#icon-linkedin"></use></svg> LinkedIn</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="footer-global">
+    <div class="footer-global--utils">
+      <ul class="list--inline justify-center m-0">
+        <li class="light-dark footer--utils-lightdark">
+          <label>
+            <span class="switch">
+              <input type="checkbox" name="light-dark" class="light-dark-toggle">
+              <span class="slider"><span class="icon" data-icon="mode"></span></span>
+            </span>
+            <span>Light/Dark</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+    <p id="copyright" class="footer-global--copyright copyright url fn org">
+      <a href="https://www.nd.edu/copyright/">&copy; {{ current_year }}</a>
+      <a href="https://www.nd.edu/" class="url fn org">University of Notre Dame</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,4 @@
+<a href="{{ instance.get_href }}" type="button" class="{{ instance.button_class }}"{% include "components/_link_attrs.html" %}>
+  <svg class="icon" data-icon="{{ instance.icon }}" aria-hidden="true" focusable="false"><use xlink:href="#icon-{{ instance.icon }}"></use></svg>
+  {% if instance.reveal_on_hover %}<span class="btn-reveal">{{ instance.text }}</span>{% else %}{{ instance.text }}{% endif %}
+</a>

@@ -1,0 +1,8 @@
+<form class="search-form" role="search" action="{{ instance.action }}" method="get">
+  <label class="visually-hidden" for="search-{{ instance.pk }}">{{ instance.label }}</label>
+  <input type="search" class="search-input" id="search-{{ instance.pk }}" name="q" placeholder="{{ instance.input_placeholder }}">
+  <button class="search-button btn--action" type="submit">
+    <span class="icon" data-icon="search"></span>
+    <span class="visually-hidden">{{ instance.label }}</span>
+  </button>
+</form>

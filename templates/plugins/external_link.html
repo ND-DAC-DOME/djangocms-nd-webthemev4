@@ -1,0 +1,12 @@
+<div class="card-container">
+  <div class="card card--media-mention">
+    <div class="card-body">
+      <div class="card-content">
+        <h2 class="card-title entry-title">
+          <a class="card-link" href="{{ instance.link }}" target="_blank" rel="noopener">{{ instance.title }}</a>
+        </h2>
+        {% if instance.description %}<div class="card-summary">{{ instance.description|safe }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+</div>

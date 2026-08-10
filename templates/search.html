@@ -1,0 +1,55 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags %}
+
+{% block title %}Search{% if query %}: {{ query }}{% endif %} | {{ site_name }} | University of Notre Dame{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">Search</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% include "includes/search_form.html" with form_id="search-results" placeholder="Search this site" %}
+
+  {% if query %}
+  <p class="page-lede">Results for “{{ query }}”</p>
+  {% endif %}
+
+  {% if category_results %}
+  <ul class="no-bullets list-inline search-categories">
+    {% for tag, tag_pages in category_results.items %}
+    <li><a href="#category-{{ tag.tag|slugify }}">{{ tag.tag }} ({{ tag_pages|length }})</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if search_results %}
+  <ol class="no-bullets list-news">
+    {% for entry in search_results %}
+    <li>
+      <article class="article snippet card horizontal hover-bg">
+        <div class="card-body hover-more">
+          <h2 class="article-title card-title">
+            <a class="card-link" href="{{ entry.get_absolute_url }}">{{ entry.get_page_title }}</a>
+          </h2>
+          {% if entry.pagepreviewextension.summary_caption %}
+          <p class="card-text">{{ entry.pagepreviewextension.summary_caption }}</p>
+          {% endif %}
+        </div>
+      </article>
+    </li>
+    {% endfor %}
+  </ol>
+  {% elif query %}
+  <p>No results found for &ldquo;{{ query }}&rdquo;.</p>
+  {% else %}
+  <p>Enter a search term to find pages on this site.</p>
+  {% endif %}
+
+  {% placeholder "Page Content" %}
+</div>
+{% endblock %}

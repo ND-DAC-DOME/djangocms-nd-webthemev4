@@ -1,0 +1,28 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags menu_tags %}
+
+{% block page_header %}{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% show_breadcrumb 0 "includes/breadcrumb.html" %}
+  <article class="article" typeof="Event">
+    <header class="article-header">
+      <h1 class="page-title entry-title" property="name">{% page_attribute "page_title" %}</h1>
+      <div class="meta">
+        <link property="organizer" resource="#siteorg">
+        {% placeholder "date_time" %}
+        {% placeholder "location" %}
+      </div>
+    </header>
+    <div class="article-content" property="description">
+      {% placeholder "content" %}
+    </div>
+    <footer>
+      <div class="article-actions">
+        <div class="social-share"></div>
+      </div>
+    </footer>
+  </article>
+</div>
+{% endblock %}

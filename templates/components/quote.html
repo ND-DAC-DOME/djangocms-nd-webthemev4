@@ -1,0 +1,40 @@
+<blockquote class="{{ instance.blockquote_class }}">
+  {% if instance.layout == "inline" %}
+  <div class="flex-md align-start">
+    {% if instance.author_image %}
+    <figure class="avatar avatar--sm avatar--quote mi-auto mbe-3">
+      <img alt="" src="{{ instance.author_image.url }}">
+    </figure>
+    {% endif %}
+    <div>{{ instance.quote|safe }}</div>
+  </div>
+  {% if instance.author_name or instance.author_title %}
+  <div class="byline">
+    <div class="byline-body">
+      {% if instance.author_name %}<p class="byline-title person-name">{{ instance.author_name }}</p>{% endif %}
+      {% if instance.author_title %}<p class="person-title">{{ instance.author_title }}</p>{% endif %}
+    </div>
+  </div>
+  {% elif instance.citation %}
+  <cite class="cite">- {{ instance.citation }}</cite>
+  {% endif %}
+  {% elif instance.layout == "stacked" %}
+  <div>{{ instance.quote|safe }}</div>
+  {% if instance.author_name or instance.author_title or instance.author_image %}
+  <div class="byline">
+    {% if instance.author_image %}
+    <figure class="avatar avatar--xs byline-image"><img alt="" src="{{ instance.author_image.url }}"></figure>
+    {% endif %}
+    <div class="byline-body">
+      {% if instance.author_name %}<p class="byline-title person-name">{{ instance.author_name }}</p>{% endif %}
+      {% if instance.author_title %}<p class="person-title">{{ instance.author_title }}</p>{% endif %}
+    </div>
+  </div>
+  {% elif instance.citation %}
+  <cite class="cite">- {{ instance.citation }}</cite>
+  {% endif %}
+  {% else %}
+  <div>{{ instance.quote|safe }}</div>
+  {% if instance.citation %}<cite class="cite">- {{ instance.citation }}</cite>{% endif %}
+  {% endif %}
+</blockquote>

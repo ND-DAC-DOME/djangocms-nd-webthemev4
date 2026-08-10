@@ -1,0 +1,9 @@
+<li class="stat-item{% if instance.centered %} stat-item--center{% endif %}">
+  {% if instance.sticker %}
+  <svg class="{{ instance.stat_sticker_class }}" aria-hidden="true" role="presentation" focusable="false">
+    <use href="#sticker-{{ instance.sticker }}"></use>
+  </svg>
+  {% endif %}
+  <span class="stat-value{% if instance.size != 'md' %} stat-value--{{ instance.size }}{% endif %}">{{ instance.value }}</span>
+  <span class="stat-label">{{ instance.label }}</span>
+</li>

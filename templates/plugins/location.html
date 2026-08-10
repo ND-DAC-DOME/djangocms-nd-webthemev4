@@ -1,0 +1,8 @@
+{% if instance.name or instance.address %}
+<p class="meta-item event-location" property="location" typeof="Place">
+  <svg class="icon" data-icon="map-pin" aria-hidden="true" focusable="false"><use xlink:href="#icon-map-pin"></use></svg>
+  {% if instance.google_maps_link %}<a href="{{ instance.google_maps_link }}" target="_blank" rel="noopener">{% endif %}
+  <span property="name address">{% if instance.name %}{{ instance.name }}{% if instance.address and instance.address != instance.name %}, {{ instance.address }}{% endif %}{% else %}{{ instance.address }}{% endif %}</span>
+  {% if instance.google_maps_link %}</a>{% endif %}
+</p>
+{% endif %}

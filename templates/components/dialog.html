@@ -1,0 +1,15 @@
+<div class="dialog-item">
+  <button class="btn dialog-link" type="button">{{ instance.trigger_text }}</button>
+  <dialog class="{{ instance.dialog_class }}">
+    <div class="dialog-header">
+      <form method="dialog" class="dialog-close">
+        <button type="submit" title="Close">×</button>
+      </form>
+      <p class="dialog-heading h4">{{ instance.heading }}</p>
+    </div>
+    <div class="dialog-content">
+      <div>{{ instance.body|safe }}</div>
+    </div>
+    {% if instance.footer %}<div class="dialog-footer">{{ instance.footer }}</div>{% endif %}
+  </dialog>
+</div>

@@ -1,0 +1,16 @@
+{% if person %}
+{% if wrapper_tag == "li" %}<li class="card-container">{% else %}<div class="card-container">{% endif %}
+  <div class="card card--person {% if horizontal %}card--horizontal{% endif %}">
+    {% if person.image %}
+    <figure class="avatar avatar--lg card-image"><img alt="" src="{{ person.image.url }}" width="600" height="600"></figure>
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title">
+        {% if person.url %}<a class="card-link" href="{{ person.url }}">{{ person.name }}</a>{% else %}{{ person.name }}{% endif %}
+      </h2>
+      {% if job_title %}<p class="person-title">{{ job_title }}</p>{% endif %}
+      <p class="card-summary">{% if person.summary %}{{ person.summary }}{% endif %}</p>
+    </div>
+  </div>
+{% if wrapper_tag == "li" %}</li>{% else %}</div>{% endif %}
+{% endif %}

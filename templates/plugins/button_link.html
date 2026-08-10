@@ -1,0 +1,1 @@
+<a href="{% if instance.link %}{{ instance.link.get_absolute_url }}{% else %}{{ instance.external_link }}{% endif %}" type="button" class="btn"{% if not instance.link %} target="_blank" rel="noopener"{% endif %}>{{ instance.text }}</a>

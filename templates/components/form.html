@@ -1,0 +1,10 @@
+{% load cms_tags %}
+<form class="form-combinations" action="#" method="post">
+  {% if instance.title %}<h2 class="form-title">{{ instance.title }}</h2>{% endif %}
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <p class="notice">Add form fields here.</p>
+  {% endfor %}
+  <button class="btn btn--cta mt-4" type="submit">{{ instance.submit_label }}</button>
+</form>

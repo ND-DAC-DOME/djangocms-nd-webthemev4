@@ -1,0 +1,7 @@
+<ul class="no-bullets grid grid-md-2 grid-ml-3 grid-lg-4 grid-xl-5">
+  {% for person in instance.people %}
+  {% include "plugins/_card_person.html" with wrapper_tag="li" job_title=person.position %}
+  {% empty %}
+  <li class="notice">No people found.</li>
+  {% endfor %}
+</ul>

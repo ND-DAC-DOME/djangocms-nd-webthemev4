@@ -1,0 +1,10 @@
+{% comment %}
+  Usage: {% include "includes/search_form.html" with form_id="search-global-menu" placeholder="Search this site" %}
+{% endcomment %}
+<form method="get" action="{% url 'search_results' %}" id="{{ form_id|default:'search-form' }}" class="search-form" role="search" aria-label="{{ aria_label|default:'Site search' }}">
+  <input type="search" name="q" class="search-input" id="{{ form_id|default:'search-form' }}-input" value="{{ query|default:'' }}" placeholder="{{ placeholder|default:'Search this site' }}" title="type your search term" aria-label="Site Search input">
+  <button class="search-button btn--action" type="submit" aria-label="Search">
+    <span class="icon" data-icon="search"></span>
+    <span class="icon icon--rotate hidden" data-icon="arrow-repeat" aria-hidden="true"></span>
+  </button>
+</form>

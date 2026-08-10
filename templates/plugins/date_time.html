@@ -1,0 +1,13 @@
+{% if instance.start_date %}
+<p class="meta-item event-time">
+  <svg class="icon" data-icon="clock" aria-hidden="true" focusable="false"><use xlink:href="#icon-clock"></use></svg>
+  <time property="startDate" datetime="{{ instance.start_date|date:"Y-m-d" }}{% if instance.start_time %}T{{ instance.start_time|time:"H:i" }}{% endif %}">
+    <span class="date-string">{{ instance.start_date|date:"D, N j" }}</span>{% if instance.start_time %} at {{ instance.start_time|time:"g:i A" }}{% endif %}
+  </time>
+  {% if instance.end_date and instance.end_date != instance.start_date %}
+    &ndash; <time property="endDate" datetime="{{ instance.end_date|date:"Y-m-d" }}">{{ instance.end_date|date:"D, N j" }}</time>
+  {% elif instance.end_time %}
+    &ndash; <time property="endDate">{{ instance.end_time|time:"g:i A" }}</time>
+  {% endif %}
+</p>
+{% endif %}

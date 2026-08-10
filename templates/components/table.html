@@ -1,0 +1,6 @@
+<div class="tablewrap">
+  <table{% if instance.table_class %} class="{{ instance.table_class }}"{% endif %}>
+    {% if instance.caption %}<caption>{{ instance.caption }}</caption>{% endif %}
+    {{ instance.body|safe }}
+  </table>
+</div>

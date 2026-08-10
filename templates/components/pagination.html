@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<div role="navigation" aria-label="Pagination" class="pagination" separator=" ">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <span class="disabled">Add pagination items here.</span>
+  {% endfor %}
+</div>

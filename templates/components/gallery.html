@@ -1,0 +1,10 @@
+{% load cms_tags %}
+<div class="gallery-wrapper">
+  <ul id="gallery-{{ instance.pk }}" class="{{ instance.gallery_class }}" data-count="{{ instance.child_plugin_instances|length }}">
+    {% for plugin in instance.child_plugin_instances %}
+    {% render_plugin plugin %}
+    {% empty %}
+    <li><span>Add gallery images here.</span></li>
+    {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,34 @@
+<article class="article card-container snippet event" typeof="Event">
+  <div class="card card--event">
+    <div aria-hidden="true" class="meta-item event-date">
+      <span class="event-month">{{ instance.event_date|date:"M" }}</span>
+      <span class="event-day">{{ instance.event_date|date:"j" }}</span>
+    </div>
+    <div class="card-body">
+      <h2 class="article-title card-title" property="name">
+        <a href="{{ instance.get_href }}" class="card-link"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+      </h2>
+      {% if instance.description %}<meta property="description" content="{{ instance.description }}">{% endif %}
+      <div class="article-meta">
+        <p class="meta-item event-time">
+          <time property="startDate" datetime="{{ instance.event_date|date:'c' }}{% if instance.start_time %}T{{ instance.start_time|time:'H:i' }}{% endif %}">
+            <span class="icon" data-icon="clock"></span>
+            <span class="date-string">{{ instance.event_date|date:"D, N j" }}</span>{% if instance.start_time %} at {{ instance.start_time|time:"g:i A" }}{% endif %}
+          </time>
+          {% if instance.end_date and instance.end_date != instance.event_date %}
+          &ndash; <time property="endDate" datetime="{{ instance.end_date|date:'c' }}">{{ instance.end_date|date:"D, N j" }}</time>
+          {% elif instance.end_time %}
+          &ndash; <time property="endDate">{{ instance.end_time|time:"g:i A" }}</time>
+          {% endif %}
+        </p>
+        {% if instance.location %}
+        <p class="meta-item event-location" property="location" typeof="Place">
+          <span class="icon" data-icon="map-pin"></span>
+          <span property="name address">{{ instance.location }}</span>
+        </p>
+        {% endif %}
+        {% if instance.recurring %}<p class="meta-item"><span class="badge">Recurring</span></p>{% endif %}
+      </div>
+    </div>
+  </div>
+</article>

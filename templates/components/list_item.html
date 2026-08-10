@@ -1,0 +1,4 @@
+<li>
+  {% if instance.title %}<strong>{{ instance.title }}</strong>{% endif %}
+  {% if instance.body %}{{ instance.body|safe }}{% endif %}
+</li>

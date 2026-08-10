@@ -1,0 +1,4 @@
+{% if instance.label %}<p>{{ instance.label }}</p>{% endif %}
+<svg class="{{ instance.sticker_class }}" aria-hidden="true" role="presentation" focusable="false">
+  <use href="#sticker-{{ instance.sticker }}"></use>
+</svg>

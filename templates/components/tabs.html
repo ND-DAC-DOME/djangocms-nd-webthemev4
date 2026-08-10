@@ -1,0 +1,25 @@
+{% load cms_tags %}
+<div class="tabs-wrapper">
+  <div class="tabs-container">
+    <nav class="{{ instance.nav_class }}" aria-label="Tabs Navigation" role="tablist">
+      <ul id="nav-tabs-{{ instance.pk }}" role="tablist" aria-label="Tabs" aria-orientation="horizontal">
+        {% for panel in instance.child_plugin_instances %}
+        <li role="presentation">
+          <a
+            href="#tab-{{ panel.pk }}"
+            class="tab{% if panel.pk == active_tab_pk %} active{% endif %}"
+            aria-selected="{% if panel.pk == active_tab_pk %}true{% else %}false{% endif %}"
+          >{{ panel.title }}</a>
+        </li>
+        {% empty %}
+        <li role="presentation"><span class="tab">Add tab panels here.</span></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="tab-panels" aria-labelledby="nav-tabs-{{ instance.pk }}">
+      {% for plugin in instance.child_plugin_instances %}
+      {% render_plugin plugin %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

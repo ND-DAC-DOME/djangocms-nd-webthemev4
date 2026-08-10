@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<ul class="{{ instance.timeline_class }}">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li class="timeline-item"><div class="timeline-body"><p>Add timeline items here.</p></div></li>
+  {% endfor %}
+</ul>

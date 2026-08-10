@@ -1,0 +1,11 @@
+{% include "includes/_plugin_heading.html" %}
+<ol class="no-bullets cards-list">
+  {% for event in instance.get_events %}
+  <li>{% include "plugins/_card_event.html" %}</li>
+  {% empty %}
+  <li class="notice">No upcoming events.</li>
+  {% endfor %}
+</ol>
+{% if instance.further_reading_link %}
+<p><a class="btn btn--more" href="{{ instance.further_reading_link.get_absolute_url }}">{{ instance.further_reading_link_text|default:"View all events" }}</a></p>
+{% endif %}

@@ -1,0 +1,17 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{% page_attribute "page_title" %}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% placeholder "content" %}
+  {% placeholder "Page Content" %}
+</div>
+{% endblock %}

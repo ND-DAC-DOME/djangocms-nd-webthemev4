@@ -1,0 +1,16 @@
+<div class="page-secondary full-width">
+  <div class="section section--screen grid grid-md-2 bg--dark">
+    {% if instance.image %}
+    <figure class="section-media section-media--bg bg--gradient bg--brand-blue">
+      <img src="{{ instance.image.url }}" alt="{{ instance.title|default:"" }}">
+    </figure>
+    {% endif %}
+    <div class="section-body">
+      {% if instance.title %}<h2 class="section-title">{{ instance.title }}</h2>{% endif %}
+      {% if instance.caption %}<p>{{ instance.caption }}</p>{% endif %}
+      {% if instance.internal_link or instance.external_link %}
+      <p><a href="{% if instance.internal_link %}{{ instance.internal_link.get_absolute_url }}{% else %}{{ instance.external_link }}{% endif %}" type="button" class="btn btn--cta btn--more"{% if not instance.internal_link %} target="_blank" rel="noopener"{% endif %}>{{ instance.link_text|default:"Learn more" }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>

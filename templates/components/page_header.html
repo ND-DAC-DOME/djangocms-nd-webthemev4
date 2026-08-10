@@ -1,0 +1,9 @@
+<div class="{{ instance.header_class }}">
+  {% if instance.image %}
+  <figure class="page-image"><img src="{{ instance.image.url }}" alt="{{ instance.alt_text|default:instance.title }}"></figure>
+  {% endif %}
+  <div class="page-title-wrapper">
+    <h1 class="{{ instance.title_class }}">{{ instance.title }}</h1>
+    {% if instance.lede %}<p class="page-lede">{{ instance.lede }}</p>{% endif %}
+  </div>
+</div>

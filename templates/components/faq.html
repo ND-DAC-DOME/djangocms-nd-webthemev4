@@ -1,0 +1,17 @@
+{% load cms_tags %}
+{% if instance.show_anchors %}
+<ol class="faq-anchors" id="{{ instance.anchors_id }}">
+  {% for plugin in instance.child_plugin_instances %}
+  <li><a href="#{{ plugin.item_id }}">{{ plugin.question }}</a></li>
+  {% endfor %}
+</ol>
+{% endif %}
+<dl class="faq">
+  {% for plugin in instance.child_plugin_instances %}
+  {% with parent=instance %}
+  {% render_plugin plugin %}
+  {% endwith %}
+  {% empty %}
+  <p class="notice">Add FAQ items here.</p>
+  {% endfor %}
+</dl>

@@ -1,0 +1,9 @@
+{% include "includes/_plugin_heading.html" %}
+<div class="grid grid-md-3">
+  {% include "plugins/_card_default.html" with page=instance.left_card show_summary=True %}
+  {% include "plugins/_card_default.html" with page=instance.center_card show_summary=True %}
+  {% include "plugins/_card_default.html" with page=instance.right_card show_summary=True %}
+</div>
+{% if instance.further_reading_link %}
+<p><a class="btn btn--more" href="{{ instance.further_reading_link.get_absolute_url }}">{{ instance.further_reading_link_text|default:"Read more" }}</a></p>
+{% endif %}

@@ -1,0 +1,11 @@
+{% include "includes/_plugin_heading.html" %}
+<ol class="no-bullets cards-list">
+  {% for page in instance.get_children %}
+  <li>{% include "plugins/_card_default.html" with page=page horizontal=True show_summary=True show_date=instance.show_publication_date %}</li>
+  {% empty %}
+  <li class="notice">No pages found.</li>
+  {% endfor %}
+</ol>
+{% if instance.view_more_link %}
+<p><a class="btn btn--more" href="{{ instance.view_more_link.get_absolute_url }}">{{ instance.view_more_link_text|default:"View more" }}</a></p>
+{% endif %}

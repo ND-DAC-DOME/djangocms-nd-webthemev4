@@ -1,0 +1,11 @@
+{% if instance.item_type == "current" %}
+<span class="current">{{ instance.label }}</span>
+{% elif instance.item_type == "disabled" %}
+<span class="{% if instance.label == 'Previous' %}previous_page {% endif %}disabled"{% if instance.label == 'Previous' %} aria-label="Previous page"{% elif instance.label == 'Next' %} aria-label="Next page"{% endif %}>{{ instance.label }}</span>
+{% elif instance.item_type == "previous" %}
+<a class="previous_page" href="{{ instance.get_href }}" aria-label="Previous page"{% include "components/_link_attrs.html" %}>{{ instance.label }}</a>
+{% elif instance.item_type == "next" %}
+<a class="next_page" href="{{ instance.get_href }}" aria-label="Next page" rel="next"{% include "components/_link_attrs.html" %}>{{ instance.label }}</a>
+{% else %}
+<a aria-label="Page {{ instance.label }}" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.label }}</a>
+{% endif %}

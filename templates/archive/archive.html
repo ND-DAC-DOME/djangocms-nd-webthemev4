@@ -1,0 +1,48 @@
+{% extends "base_ndt.html" %}
+
+{% block title %}Archive | {{ site_name }} | University of Notre Dame{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">Archive</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  <section class="archive-categories">
+    <h2>Browse by category</h2>
+    <ul class="no-bullets list-inline">
+      <li><a href="/archive/all/">All</a></li>
+      {% for category, count in categories.items %}
+      <li><a href="/archive/{{ category|urlencode }}/">{{ category }} ({{ count }})</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="archive-years">
+    <h2>Browse by year</h2>
+    <ul class="no-bullets list-inline">
+      {% for year, count in years.items %}
+      <li><a href="/archive/all/{{ year }}/">{{ year }} ({{ count }})</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <ol class="no-bullets list-news">
+    {% for page in pages %}
+    <li>
+      <article class="card horizontal">
+        <div class="card-body">
+          <h3 class="card-title"><a href="{{ page.get_absolute_url }}">{{ page.get_page_title }}</a></h3>
+        </div>
+      </article>
+    </li>
+    {% empty %}
+    <li>No archived pages yet.</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}

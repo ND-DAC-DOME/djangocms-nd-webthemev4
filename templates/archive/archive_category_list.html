@@ -1,0 +1,38 @@
+{% extends "base_ndt.html" %}
+
+{% block title %}{{ title }} Archive: {{ filter }} | {{ site_name }} | University of Notre Dame{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{{ title }} Archive: {{ filter }}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  <ol class="no-bullets list-news">
+    {% for page in pages %}
+    <li>
+      <article class="card horizontal">
+        <div class="card-body">
+          <h3 class="card-title"><a href="{{ page.url }}">{{ page.title }}</a></h3>
+          <p class="card-meta">
+            {% if page.page_type == "event" %}
+              <time>{{ page.start_date|date:"N j, Y" }}</time>
+              {% if page.location %}&middot; {{ page.location }}{% endif %}
+            {% else %}
+              <time>{{ page.date|date:"N j, Y" }}</time>
+            {% endif %}
+          </p>
+          {% if page.summary_caption %}<p class="card-text">{{ page.summary_caption }}</p>{% endif %}
+        </div>
+      </article>
+    </li>
+    {% empty %}
+    <li>No archived pages found for this filter.</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock %}

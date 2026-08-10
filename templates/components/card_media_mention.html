@@ -1,0 +1,36 @@
+{% load cms_tags %}
+<div class="card-container">
+  <div class="{{ instance.card_class }}">
+    <div class="card-body">
+      {% if instance.publication_logo or instance.publication_name %}
+      <div class="publication-logo">
+        {% if instance.publication_logo %}
+        <img class="publication-logo-img" alt="{{ instance.publication_name }}" src="{{ instance.publication_logo.url }}" loading="lazy">
+        {% endif %}
+        {% if instance.publication_name %}<p>{{ instance.publication_name }}</p>{% endif %}
+      </div>
+      {% endif %}
+      <div class="card-content">
+        <h2 class="card-title entry-title">
+          <a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+        </h2>
+        {% if instance.summary or instance.mention_date %}
+        <div class="card-summary">
+          {% if instance.mention_date %}<p class="entry-date">{{ instance.mention_date }}</p>{% endif %}
+          {{ instance.summary|safe }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% if instance.child_plugin_instances %}
+    <div class="card-meta">
+      {% if instance.meta_heading %}<h3 class="card-meta-title">{{ instance.meta_heading }}</h3>{% endif %}
+      <div class="byline-group">
+        {% for plugin in instance.child_plugin_instances %}
+        {% render_plugin plugin %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

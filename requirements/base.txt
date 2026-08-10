@@ -1,0 +1,40 @@
+# Django / CMS
+# ------------------------------------------------------------------------------
+Django==6.1
+django-cms==5.1.0
+django-environ==0.14.0
+django-model-utils==5.0.0
+whitenoise==6.12.0
+Pillow==12.3.0
+argon2-cffi==25.1.0
+redis==8.1.0
+django-redis==7.0.0
+
+# django CMS ecosystem
+# ------------------------------------------------------------------------------
+djangocms-simple-admin-style==2.0.2
+djangocms-text==0.9.10
+djangocms-link==5.2.0
+djangocms-alias==3.1.1
+djangocms-frontend==2.5.1
+django-filer==3.5.0
+easy-thumbnails==2.10.1
+django-treebeard==7.0.0
+django-sekizai==4.1.0
+django-parler==2.4
+
+# Auth (optional Okta wired later; allauth always available)
+# ------------------------------------------------------------------------------
+django-allauth==65.19.0
+django-crispy-forms==2.7
+crispy-bootstrap5==2026.3
+
+# Task queue
+# ------------------------------------------------------------------------------
+celery==5.6.3
+# django-celery-beat is installed in the Dockerfile with --no-deps because
+# PyPI metadata still declares Django<6.1 while we require Django 6.1.
+django-timezone-field>=5.0
+python-crontab>=2.3.4
+cron-descriptor>=1.2.32,<2.0.0
+tzdata

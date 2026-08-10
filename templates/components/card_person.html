@@ -1,0 +1,12 @@
+<div class="card-container">
+  <div class="{{ instance.card_class }}">
+    {% if instance.image %}
+    <figure class="avatar avatar--lg card-image"><img alt="{{ instance.alt_text|default:instance.title }}" src="{{ instance.image.url }}"></figure>
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title"><a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a></h2>
+      {% if instance.job_title %}<p class="person-title">{{ instance.job_title }}</p>{% endif %}
+      <p class="card-summary">{% if instance.summary %}{{ instance.summary|safe }}{% endif %}</p>
+    </div>
+  </div>
+</div>

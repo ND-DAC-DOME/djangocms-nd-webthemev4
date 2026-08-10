@@ -1,0 +1,48 @@
+{% load menu_tags %}
+<dialog class="global-menu" id="global-menu" aria-modal="true">
+  <div class="global-menu-header">
+    <div class="global-menu-header-logo">
+      <a href="/" title="Home" class="global-menu-home">
+        <svg class="mark" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#academic-mark"></use></svg>
+        <span class="visually-hidden">{{ site_name }}</span>
+      </a>
+    </div>
+    <div class="global-menu-search">
+      {% include "includes/search_form.html" with form_id="search-global-menu" placeholder="Search this site" aria_label="Site search" %}
+    </div>
+    <form method="dialog" class="global-menu-close">
+      <button class="btn btn--action" type="submit" aria-label="Close global menu">
+        <svg aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-close"></use></svg>
+      </button>
+    </form>
+  </div>
+  <div class="global-menu-body">
+    <div class="nav-mobile nav-site">
+      <nav id="nav-mobile" class="nav nav-primary" role="navigation" aria-label="Primary mobile navigation">
+        {% show_menu 0 1 0 1 "includes/menu_mobile.html" %}
+      </nav>
+    </div>
+  </div>
+  <div class="global-menu-footer">
+    <nav class="nav-external-global nav-secondary nav-external" aria-label="Notre Dame network">
+      <ul class="list--inline m-0">
+        <li><a href="https://news.nd.edu/">News</a></li>
+        <li><a href="https://events.nd.edu/">Events</a></li>
+        <li><a href="https://giving.nd.edu/">Giving</a></li>
+        <li><a href="https://my.nd.edu/">Alumni</a></li>
+        <li><a href="https://fightingirish.com/">Athletics</a></li>
+      </ul>
+    </nav>
+    <ul class="global-menu-utils list--inline">
+      <li class="light-dark global-menu-utils-lightdark">
+        <label>
+          <span class="switch">
+            <input id="light-dark--global" type="checkbox" name="light-dark" class="light-dark-toggle">
+            <span class="slider"><span class="icon" data-icon="mode"></span></span>
+          </span>
+          <span>Light/Dark</span>
+        </label>
+      </li>
+    </ul>
+  </div>
+</dialog>

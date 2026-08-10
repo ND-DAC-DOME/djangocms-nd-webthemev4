@@ -1,0 +1,8 @@
+{% load cms_tags %}
+<ul class="{{ instance.list_class }}">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <li class="stat-item"><span class="stat-label">Add stat items here.</span></li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+{% load cms_tags %}
+<div
+  class="tab-panel"
+  id="tab-{{ instance.pk }}"
+  role="tabpanel"
+  aria-labelledby="tab-label-{{ instance.pk }}"
+  {% if instance.pk != active_tab_pk %}hidden{% endif %}
+>
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <p>Add tab panel content here.</p>
+  {% endfor %}
+</div>

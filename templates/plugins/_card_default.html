@@ -1,0 +1,21 @@
+{% load ndthemes_tags %}
+{% if page %}
+<div class="card-container">
+  <div class="card{% if horizontal %} card--horizontal{% endif %}">
+    {% with image=page.pagepreviewextension.get_image %}
+    {% if image %}
+    <figure class="card-image"><img src="{{ image.url }}" alt="{{ page.pagepreviewextension.image_alt|default:"" }}"></figure>
+    {% endif %}
+    {% endwith %}
+    <div class="card-body">
+      <h2 class="card-title"><a class="card-link" href="{{ page.get_absolute_url }}">{{ page.get_page_title }}</a></h2>
+      {% if show_summary and page.pagepreviewextension.summary_caption %}
+      <p class="card-summary">{{ page.pagepreviewextension.summary_caption }}</p>
+      {% endif %}
+      {% if show_date %}
+      <p class="meta-item publish-info"><time>{{ page|page_sort_date|date:"N j, Y" }}</time></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
