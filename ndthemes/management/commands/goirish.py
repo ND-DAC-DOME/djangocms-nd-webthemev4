@@ -20,6 +20,7 @@ from ndthemes.seed.helpers import (
     ensure_fixture_images,
     ensure_page_tag,
     ensure_setting,
+    move_under_parent,
     page_by_title,
     wipe_demo_site,
 )

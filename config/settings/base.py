@@ -102,6 +102,11 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "account_login"
 if OKTA_AUTH:
+    # allauth urls are not routed when Okta is enabled, so its backend is dropped too.
+    AUTHENTICATION_BACKENDS = [
+        "django.contrib.auth.backends.ModelBackend",
+        "samplecms.auth.NDOIDCAuthBackend",
+    ]
     LOGIN_URL = "/oidc/authenticate/"
 
 PASSWORD_HASHERS = [
@@ -261,3 +266,38 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": 60 * 60,  # hourly
     },
 }
+
+# Okta / OIDC
+if OKTA_AUTH:
+    # Django runs behind the nginx proxy, which terminates TLS.
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    LOGIN_REDIRECT_URL = env("LOGIN_REDIRECT_URL", default="/")
+    LOGOUT_REDIRECT_URL = env("LOGOUT_REDIRECT_URL", default="/")
+
+    _OIDC_BASE_URL = env(
+        "OIDC_BASE_URL",
+        default="https://okta.nd.edu/oauth2/ausxosq06SDdaFNMB356/v1",
+    )
+    OIDC_RP_CLIENT_ID = env("OIDC_RP_CLIENT_ID")
+    OIDC_RP_CLIENT_SECRET = env("OIDC_RP_CLIENT_SECRET")
+
+    OIDC_OP_AUTHORIZATION_ENDPOINT = f"{_OIDC_BASE_URL}/authorize"
+    OIDC_OP_TOKEN_ENDPOINT = f"{_OIDC_BASE_URL}/token"
+    OIDC_OP_USER_ENDPOINT = f"{_OIDC_BASE_URL}/userinfo"
+    OIDC_OP_JWKS_ENDPOINT = f"{_OIDC_BASE_URL}/keys"
+    OIDC_OP_LOGOUT_ENDPOINT = f"{_OIDC_BASE_URL}/logout"
+    OIDC_RP_SIGN_ALGO = "RS256"
+
+    # The library defaults to True; ND accounts must be provisioned first.
+    OIDC_CREATE_USER = env.bool("DJANGO_OIDC_CREATE_USER", default=False)
+
+    # How often SessionRefresh re-checks the Okta session.
+    OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = env.int(
+        "DJANGO_OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS",
+        default=900,
+    )
+
+    # Provider logout needs the ID token, not the access token.
+    OIDC_STORE_ID_TOKEN = True

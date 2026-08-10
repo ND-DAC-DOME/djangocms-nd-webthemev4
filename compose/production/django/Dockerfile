@@ -88,6 +88,12 @@ COPY --chown=django:django . ${APP_HOME}
 # make django owner of the WORKDIR directory as well.
 RUN chown django:django ${APP_HOME}
 
+# MEDIA_ROOT is a bind target for the production_django_media volume. It must exist
+# in the image and be django-owned, otherwise Docker creates the mount point as root
+# and uploads/seeding fail with EACCES.
+RUN mkdir -p ${APP_HOME}/samplecms/media \
+  && chown django:django ${APP_HOME}/samplecms ${APP_HOME}/samplecms/media
+
 USER django
 
 #RUN DATABASE_URL="" \

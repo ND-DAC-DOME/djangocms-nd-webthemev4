@@ -2,6 +2,13 @@
 
 Django **6.1** + django CMS **5.1** base template with Notre Dame Web Theme v4 integration (in progress).
 
+## Editor guide
+
+End-user documentation for content editors (how to edit pages, widgets, events, archive, site settings, and more) lives in the GitHub Wiki:
+
+**https://github.com/ND-DAC-DOME/djangocms-nd-webthemev4/wiki**
+
+
 ## Quick start (Docker)
 
 Requires Docker Desktop running.
@@ -42,7 +49,25 @@ python manage.py migrate
 
 - Local: django, postgres, mailhog, redis, celeryworker, celerybeat
 - Production: nginx, django, postgres, redis, celeryworker, celerybeat
-- Optional Okta via `OKTA_AUTH=True` (see plan / later milestones)
+- Optional Okta via `OKTA_AUTH=True`
+
+### Okta (OIDC)
+
+Setting `OKTA_AUTH=True` swaps allauth for `mozilla_django_oidc` (app, `SessionRefresh`
+middleware, `/oidc/` urls, `samplecms.auth.NDOIDCAuthBackend`). These env vars are then
+required:
+
+| Variable | Required | Default |
+| --- | --- | --- |
+| `OIDC_RP_CLIENT_ID` | yes | — |
+| `OIDC_RP_CLIENT_SECRET` | yes | — |
+| `OIDC_BASE_URL` | no | ND Okta authorization server |
+| `LOGIN_REDIRECT_URL` / `LOGOUT_REDIRECT_URL` | no | `/` |
+| `DJANGO_OIDC_CREATE_USER` | no | `False` |
+| `DJANGO_OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS` | no | `900` |
+
+`mozilla-django-oidc` ships in `requirements/production.txt` only, so install it into the
+local venv before enabling `OKTA_AUTH` outside of production.
 
 ## M6 goirish demo site (local QA)
 
