@@ -20,7 +20,7 @@
       {% include "includes/nav_primary.html" %}
       <div class="header-util">
         <div class="header-nav-toggle">
-          <button class="btn--action global-menu-toggle" aria-label="Open global menu and search" aria-controls="global-menu" aria-haspopup="dialog">
+          <button class="btn btn--action global-menu-toggle" aria-label="Open global menu and search" aria-controls="global-menu" aria-haspopup="dialog">
             <svg class="icon-search-menu" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search-menu"></use></svg>
             <svg class="icon-search" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search"></use></svg>
           </button>
@@ -28,4 +28,5 @@
       </div>
     </div>
   </div>
+  {% include "includes/header_nav_fixed.html" with include_primary_nav=True %}
 </header>

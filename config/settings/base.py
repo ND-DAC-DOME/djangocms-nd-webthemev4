@@ -227,7 +227,11 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 # django CMS
 CMS_TEMPLATES = (
     ("home.html", _("Home page")),
-    ("home_fullbleed.html", _("Home page (full-bleed)")),
+    ("home_fade.html", _("Home page (fade)")),
+    ("home_inset.html", _("Home page (inset)")),
+    ("home_container.html", _("Home page (container)")),
+    ("home_fullbleed.html", _("Home page (screen / full-bleed)")),
+    ("home_sidenav.html", _("Home page (hero + side-nav)")),
     ("page.html", _("Page")),
     ("page_with_sidenav.html", _("Page with side-nav")),
     ("news_landing.html", _("News Landing Page")),

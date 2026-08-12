@@ -17,6 +17,11 @@
     margin-block-start: 0;
   }
 
+  /* Keep the NDT fixed blue bar below the CMS toolbar while editing. */
+  html.cms-toolbar-expanded .header-nav-fixed {
+    top: 46px;
+  }
+
   /* Empty placeholder affordance in edit mode */
   .cms-placeholder {
     min-block-size: 0;
@@ -35,15 +40,175 @@
     background-image: none !important;
   }
 
-  /* Screen page header without a hero image: push title below site chrome.
+  /* Screen / container page header without a hero image: push title below site chrome.
      NDT page-header--screen expects a full-bleed image; an empty figure leaves
      the page title in the same grid row as the site header. */
-  .page-header--screen:not(:has(.page-image img, .page-image video)) .page-title-wrapper {
+  .page-header--screen:not(:has(.page-image img, .page-image video, .page-image iframe, .page-image a.video)) .page-title-wrapper,
+  .page-header--container:not(:has(.page-image img, .page-image video, .page-image iframe, .page-image a.video)) .page-title-wrapper {
     padding-block-start: max(10rem, 12vh);
   }
 
-  .page-header--screen .page-image:not(:has(img, video)) {
+  .page-header--screen .page-image:not(:has(img, video, iframe, a.video)),
+  .page-header--container .page-image:not(:has(img, video, iframe, a.video)),
+  .page-header--fade .page-image:not(:has(img, video, iframe, a.video)),
+  .page-header--inset .page-image:not(:has(img, video, iframe, a.video)),
+  .page-header .page-image:not(:has(img, video, iframe, a.video)) {
     display: none;
+  }
+
+  /* Direct-file Video: NDT-style play overlay (see site.js [data-video-file]). */
+  .video-file {
+    position: relative;
+    display: block;
+    overflow: clip;
+    border-radius: inherit;
+  }
+
+  .video-file figure {
+    margin: 0;
+  }
+
+  .video-file video {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    vertical-align: middle;
+  }
+
+  .video-file__play {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .video-file__play .play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-file__play .play-icon {
+    inline-size: clamp(3.5rem, 9vw, 6rem);
+    block-size: auto;
+    transition: transform 125ms ease-in-out;
+    filter: drop-shadow(0 0.25rem 0.75rem rgba(0, 0, 0, 0.35));
+  }
+
+  .video-file__play:hover .play-icon,
+  .video-file__play:focus-visible .play-icon {
+    transform: scale(1.06);
+  }
+
+  .video-file__play .play-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .video-file.is-playing .video-file__play {
+    display: none;
+  }
+
+  /* Keep hero preview decorative; the real player lives in the dialog. */
+  .page-header .page-image .video-file__preview video {
+    pointer-events: none;
+  }
+
+  .page-header .page-image .video-file dialog {
+    position: fixed;
+  }
+
+  .dialog.dialog--video .dialog-content video {
+    display: block;
+    inline-size: min(85dvw, 65rem);
+    block-size: auto;
+    max-block-size: 85dvh;
+    background: #000;
+  }
+
+  /* Hero video: fill the page-image frame like a featured image. */
+  .page-header .page-image:has(video, iframe, a.video, .video-file) {
+    position: relative;
+  }
+
+  .page-header .page-image .video--wrapper,
+  .page-header .page-image .video--embed,
+  .page-header .page-image .video-file,
+  .page-header .page-image a.video {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .page-header .page-image .video--wrapper figure,
+  .page-header .page-image .video-file__preview,
+  .page-header .page-image a.video figure {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .page-header .page-image .video--wrapper > figure > video,
+  .page-header .page-image .video-file__preview video,
+  .page-header .page-image .video--embed iframe,
+  .page-header .page-image a.video img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    max-block-size: none;
+    object-fit: cover;
+  }
+
+  .page-header .page-image .video--wrapper figcaption {
+    display: none;
+  }
+
+  /*
+   * NDT sets .page-image to z-index:-1 and paints a gradient ::after over it,
+   * which blocks clicks on hero video players / play placeholders. Raise the
+   * media, let the overlay ignore pointer events, and pass clicks through the
+   * title band except where editors need to interact.
+   */
+  .page-header .page-image:has(video, iframe, a.video, .video-file) {
+    z-index: 1;
+  }
+
+  .page-header .page-image:has(video, iframe, a.video, .video-file)::after {
+    pointer-events: none;
+  }
+
+  .page-header:has(.page-image video, .page-image iframe, .page-image a.video, .page-image .video-file) .page-title-wrapper {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .page-header:has(.page-image video, .page-image iframe, .page-image a.video, .page-image .video-file) .page-title-wrapper a,
+  .page-header:has(.page-image video, .page-image iframe, .page-image a.video, .page-image .video-file) .page-title-wrapper .cms,
+  .page-header:has(.page-image video, .page-image iframe, .page-image a.video, .page-image .video-file) .page-title-wrapper .cms-placeholder,
+  .page-header:has(.page-image video, .page-image iframe, .page-image a.video, .page-image .video-file) .page-title-wrapper .cms-plugin {
+    pointer-events: auto;
   }
 
   /* Collapse empty primary band on home when placeholders are cleared */
@@ -101,15 +266,19 @@
   /*
    * nav-top--false sidenav pages: NDT assigns sidebar to grid-column 2/span 3
    * (column 3/span 3 at xxl) and leaves the first subgrid track empty.
-   * Pull the sidebar to container-xl-start and place header/primary at
+   * Pull the sidebar to container-xl-start and place plain header/primary at
    * container-sm-start. Keep NDT's margin-inline-end on the sidebar.
+   *
+   * Do NOT constrain modified heroes (page-header--container/screen/fade/…).
+   * NDT places those on grid-column: screen|container and starts the sidebar
+   * at content-start so the hero stays full-width above the side-nav body.
    */
   @media (min-width: 60em) {
     .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-sidebar {
       grid-column: container-xl-start / span 3;
     }
 
-    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-header,
+    .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-header:not([class*="page-header--"]),
     .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-primary,
     .nav-top--false .site-content:has(.page-sidebar #nav_sub li) .page-secondary {
       grid-column: container-sm-start / -2;
@@ -132,6 +301,85 @@
     .site-content:has(.page-sidebar:not(:has(#nav_sub li))) .page-primary,
     .site-content:has(.page-sidebar:not(:has(#nav_sub li))) .page-secondary {
       grid-column: container-xl;
+    }
+  }
+
+  /*
+   * Scroll-driven hero polish (from NDT/DAC animate.css):
+   * container heroes widen to full bleed; screen heroes scrub out.
+   * Requires body.animate--header (set in base_ndt.html).
+   */
+  @media only screen and (min-width: 60em) and (prefers-reduced-motion: no-preference) {
+    @keyframes hero-grow {
+      0% {
+        border-radius: var(--border-radius);
+        margin-inline: -3vw;
+        width: calc(100% + 6vw);
+      }
+      to {
+        border-radius: 0;
+        margin-inline: -5vw;
+        width: calc(100% + 10vw);
+      }
+    }
+
+    @keyframes hero-scrub {
+      to {
+        opacity: 0;
+        transform: translateY(20vh);
+      }
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @supports (animation-timeline: view()) {
+      .animate--header .page-header--screen {
+        overflow: clip;
+      }
+
+      .animate--header .page-header--screen .page-image img,
+      .animate--header .page-header--screen .page-image video,
+      .animate--header .page-header--screen .page-image .video-file__preview video {
+        animation: hero-scrub linear forwards;
+        animation-timeline: view();
+        animation-range: exit;
+      }
+
+      .animate--header .page-header--screen:has(.page-image) .page-title-wrapper {
+        animation: fade-out linear forwards;
+        animation-timeline: view();
+        animation-range: 50% exit;
+      }
+
+      .animate--header .page-header--container .page-image {
+        animation: hero-grow linear forwards;
+        animation-timeline: view();
+        animation-range: exit -7rem 70%;
+      }
+    }
+
+    .animate--header .page-header[class*="page-header--"]:has(.page-image) .page-title-wrapper {
+      opacity: 0;
+      animation: reveal 0.5s ease forwards;
+      animation-delay: 0.2s;
     }
   }
 }

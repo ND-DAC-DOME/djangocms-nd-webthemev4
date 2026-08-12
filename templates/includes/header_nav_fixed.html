@@ -1,0 +1,17 @@
+{% load menu_tags %}
+{# Fixed blue bar revealed by ndt.js when .header-nav scrolls out of view. #}
+<div class="header-nav-fixed" id="nav-fixed" hidden>
+  <div class="nav-fixed-inner">
+    <nav id="fixed" class="fixed nav-primary" role="navigation" aria-label="Primary">
+      {% if include_primary_nav %}
+        {% show_menu 0 0 100 100 "includes/menu_primary.html" %}
+      {% endif %}
+    </nav>
+    <div class="header-nav-toggle">
+      <button class="btn btn--action global-menu-toggle" aria-label="Open global menu and search" aria-controls="global-menu" aria-haspopup="dialog">
+        <svg class="icon-search-menu" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search-menu"></use></svg>
+        <svg class="icon-search" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search"></use></svg>
+      </button>
+    </div>
+  </div>
+</div>

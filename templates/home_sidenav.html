@@ -1,0 +1,35 @@
+{% extends "base_ndt.html" %}
+{% load cms_tags menu_tags %}
+
+{# DAC-style home: large container hero (image or video) + body with side nav #}
+{% block body_class %} home{% endblock %}
+{% block wrapper_class %} nav-top--false{% endblock %}
+
+{% block site_header %}{% include "includes/site_header_sidenav.html" %}{% endblock %}
+
+{% block page_header %}
+<div class="page-header page-header--container bg--dark animate">
+  <div class="page-title-wrapper">
+    <h1 class="page-title">{% placeholder "Page Title" %}</h1>
+    <p class="page-lede">{% placeholder "Page Lede" %}</p>
+  </div>
+  <figure class="page-image page-image--fit bg--gradient bg--black bg--to-top-right">
+    {% placeholder "Page Image" %}
+  </figure>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-primary">
+  {% placeholder "Page Intro" %}
+  {% placeholder "Page Content" %}
+</div>
+{% placeholder "Page Secondary" %}
+<div class="page-sidebar">
+  <nav id="nav" class="nav-site nav-full" aria-label="Primary">
+    <div id="nav_sub">
+      {% show_menu 0 100 100 100 "includes/menu_mobile.html" %}
+    </div>
+  </nav>
+</div>
+{% endblock %}

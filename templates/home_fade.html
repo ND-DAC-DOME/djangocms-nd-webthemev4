@@ -3,10 +3,9 @@
 
 {% block body_class %} home{% endblock %}
 
-{# Storybook: Templates / Home Page — Default hero (top nav) #}
 {% block page_header %}
-<div class="page-header animate">
-  <figure class="page-image">
+<div class="page-header page-header--fade has-featured-image bg--brand-blue animate">
+  <figure class="page-image bg--gradient bg--to-right">
     {% placeholder "Page Image" %}
   </figure>
   <div class="page-title-wrapper">
@@ -17,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-primary">
+<div class="page-primary full-width">
   {% placeholder "Page Intro" %}
   {% placeholder "Page Content" %}
 </div>

@@ -1,8 +1,11 @@
 {% extends "base_ndt.html" %}
 {% load cms_tags %}
 
+{% block body_class %} home{% endblock %}
+
+{# Storybook: Templates / Home Page — With Hero Screen #}
 {% block page_header %}
-<div class="page-header page-header--screen bg--dark">
+<div class="page-header page-header--screen bg--dark animate">
   <figure class="page-image bg--gradient bg--left-to-right bg--brand-blue">
     {% placeholder "Page Image" %}
   </figure>

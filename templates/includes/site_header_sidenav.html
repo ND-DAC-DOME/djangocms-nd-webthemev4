@@ -4,7 +4,7 @@
     <svg width="512" height="86" aria-hidden="true"><use xlink:href="#mobile-mark"></use></svg>
     <span class="visually-hidden">University of Notre Dame</span>
   </a>
-  <div class="header-group">
+  <div class="header-group header-group--inline-xl">
     <div class="header-title">
       <svg class="header-mark" width="250" height="60" aria-hidden="true"><use xlink:href="#academic-mark"></use></svg>
       <div class="header-title-name">
@@ -19,7 +19,7 @@
     <div class="header-nav">
       <div class="header-util">
         <div class="header-nav-toggle">
-          <button class="btn--action global-menu-toggle" aria-label="Open global menu and search" aria-controls="global-menu" aria-haspopup="dialog">
+          <button class="btn btn--action global-menu-toggle" aria-label="Open global menu and search" aria-controls="global-menu" aria-haspopup="dialog">
             <svg class="icon-search-menu" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search-menu"></use></svg>
             <svg class="icon-search" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search"></use></svg>
           </button>
@@ -27,4 +27,5 @@
       </div>
     </div>
   </div>
+  {% include "includes/header_nav_fixed.html" with include_primary_nav=False %}
 </header>

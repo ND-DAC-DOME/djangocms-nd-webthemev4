@@ -1,11 +1,41 @@
 {% if instance.file_type %}
-<div class="{{ instance.wrapper_class }}">
-  <figure>
-    <video controls playsinline preload="metadata" width="1280" height="720"{% if instance.label %} title="{{ instance.label }}"{% endif %}>
-      <source src="{{ instance.video_url }}" type="{{ instance.file_type }}">
-    </video>
-    {% if instance.label %}<figcaption>{{ instance.label }}</figcaption>{% endif %}
-  </figure>
+{# Direct file: hero/page-image opens in an NDT video dialog so controls aren't clipped. #}
+<div class="{{ instance.wrapper_class }} video--file">
+  <div class="video-file" data-video-file{% if instance.pk %} id="video-file-{{ instance.pk }}"{% endif %}>
+    <figure class="video-file__preview">
+      <video playsinline preload="metadata" muted width="1280" height="720" aria-hidden="true" tabindex="-1"{% if instance.label %} title="{{ instance.label }}"{% endif %}>
+        <source src="{{ instance.video_url }}" type="{{ instance.file_type }}">
+      </video>
+    </figure>
+    <button
+      type="button"
+      class="video-file__play"
+      aria-label="{{ instance.label|default:'Play video' }}"
+      aria-haspopup="dialog"
+      {% if instance.pk %}aria-controls="video-dialog-{{ instance.pk }}"{% endif %}
+    >
+      <span class="play" aria-hidden="true">
+        <svg class="play-icon" viewBox="0 0 80 80" width="80" height="80" focusable="false">
+          <circle cx="40" cy="40" r="38" fill="rgba(12, 35, 64, 0.72)" stroke="#c99700" stroke-width="3"></circle>
+          <path d="M32 24 L60 40 L32 56 Z" fill="#c99700"></path>
+        </svg>
+      </span>
+      {% if instance.label %}<span class="play-label">{{ instance.label }}</span>{% endif %}
+    </button>
+    <dialog class="dialog dialog--video" {% if instance.pk %}id="video-dialog-{{ instance.pk }}"{% endif %} aria-label="{{ instance.label|default:'Video player' }}">
+      <div class="dialog-header">
+        <form method="dialog" class="dialog-close">
+          <button type="submit" title="Close">×</button>
+        </form>
+        {% if instance.label %}<p class="dialog-heading h4">{{ instance.label }}</p>{% endif %}
+      </div>
+      <div class="dialog-content">
+        <video controls playsinline preload="metadata" width="1280" height="720"{% if instance.label %} title="{{ instance.label }}"{% endif %}>
+          <source src="{{ instance.video_url }}" type="{{ instance.file_type }}">
+        </video>
+      </div>
+    </dialog>
+  </div>
 </div>
 {% elif instance.display_type == "placeholder" and instance.thumbnail_url %}
 {# ndt.js turns the link text into the play button label and replaces the parent element's contents on click, so the link needs its own wrapper. #}
