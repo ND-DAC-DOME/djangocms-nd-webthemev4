@@ -153,6 +153,37 @@
 })();
 
 /*!
+ * Focus the global-menu search input when the overlay opens.
+ * Native dialog autofocus covers most browsers; this covers older ones and
+ * theme open paths that may not run the autofocus algorithm.
+ */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var dialog = document.getElementById("global-menu");
+    var input = document.getElementById("search-global-menu-input");
+    if (!dialog || !input) return;
+
+    function focusSearch() {
+      requestAnimationFrame(function () {
+        if (dialog.open) {
+          input.focus({ preventScroll: true });
+        }
+      });
+    }
+
+    dialog.addEventListener("toggle", function () {
+      if (dialog.open) focusSearch();
+    });
+
+    document.querySelectorAll(".global-menu-toggle").forEach(function (button) {
+      button.addEventListener("click", function () {
+        setTimeout(focusSearch, 0);
+      });
+    });
+  });
+})();
+
+/*!
  * NDT4 tabs — progressive enhancement for .nav-tabs / .tab-panel markup
  */
 (function () {

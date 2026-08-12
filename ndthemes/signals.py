@@ -9,6 +9,7 @@ plugin with ``search_fields`` is saved, rather than at publish time.
 """
 from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
+from django.utils.html import strip_tags
 
 from cms.models import CMSPlugin, PageContent
 from djangocms_text.fields import HTMLField
@@ -34,19 +35,29 @@ def pagecontent_saved_receiver(sender, instance, **kwargs):
         EventSeries.objects.filter(pk=series.pk).update(name=instance.title)
 
 
+def _indexable_text(value):
+    """Normalize plugin field values into plain text for the search index."""
+    if value is None:
+        return ""
+    text = strip_tags(str(value)).strip()
+    return " ".join(text.split())
+
+
 def reindex_page(page):
-    from .models import PageContentIndex
+    from .models import DEFAULT_LANGUAGE, PageContentIndex
 
     PageContentIndex.objects.filter(page=page).delete()
-    for placeholder in page.get_placeholders("en"):
+    for placeholder in page.get_placeholders(DEFAULT_LANGUAGE):
         for plugin in placeholder.get_plugins():
             instance = plugin.get_plugin_instance()[0]
             if instance is None or not hasattr(instance, "search_fields"):
                 continue
             for field in instance.search_fields:
-                data = getattr(instance, field, "")
+                data = _indexable_text(getattr(instance, field, ""))
                 if data:
-                    PageContentIndex.objects.create(page=page, plugin_id=instance.pk, content=data)
+                    PageContentIndex.objects.create(
+                        page=page, plugin_id=instance.pk, content=data
+                    )
 
 
 @receiver(post_save)

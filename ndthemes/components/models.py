@@ -51,6 +51,10 @@ class AccordionItem(CMSPlugin):
     def __str__(self):
         return self.title
 
+    @property
+    def search_fields(self):
+        return ("title",)
+
 
 class Notice(CMSPlugin):
     VARIANT_CHOICES = (
@@ -69,6 +73,10 @@ class Notice(CMSPlugin):
 
     def __str__(self):
         return self.heading or "Notice"
+
+    @property
+    def search_fields(self):
+        return ("heading", "body")
 
     def notice_class(self):
         if self.variant:
@@ -90,6 +98,10 @@ class Heading(CMSPlugin):
 
     def __str__(self):
         return self.text
+
+    @property
+    def search_fields(self):
+        return ("text",)
 
 
 class Quote(CMSPlugin):
@@ -127,6 +139,10 @@ class Quote(CMSPlugin):
 
     def __str__(self):
         return self.author_name or self.citation or "Quote"
+
+    @property
+    def search_fields(self):
+        return ("quote", "citation", "author_name", "author_title")
 
     def blockquote_class(self):
         classes = ["blockquote"]
@@ -684,6 +700,10 @@ class FAQItem(CMSPlugin):
     def __str__(self):
         return self.question
 
+    @property
+    def search_fields(self):
+        return ("question", "answer")
+
 
 class Banner(CMSPlugin, _LinkMixin):
     LAYOUT_CHOICES = (
@@ -821,6 +841,10 @@ class CardDefault(CMSPlugin, _LinkMixin, _CardStyleMixin):
     def __str__(self):
         return self.title
 
+    @property
+    def search_fields(self):
+        return ("title", "summary")
+
     def card_class(self):
         classes = ["card"]
         if self.style:
@@ -839,6 +863,10 @@ class CardNews(CMSPlugin, _LinkMixin, _CardStyleMixin):
 
     def __str__(self):
         return self.title
+
+    @property
+    def search_fields(self):
+        return ("label", "title", "summary", "author_name")
 
     def card_class(self):
         classes = ["card", "card--news"]
@@ -860,6 +888,10 @@ class CardEvent(CMSPlugin, _LinkMixin):
     def __str__(self):
         return self.title
 
+    @property
+    def search_fields(self):
+        return ("title", "description", "location")
+
 
 class CardFeatured(CMSPlugin, _LinkMixin):
     label = models.CharField(max_length=255, blank=True, default="")
@@ -869,6 +901,10 @@ class CardFeatured(CMSPlugin, _LinkMixin):
 
     def __str__(self):
         return self.title
+
+    @property
+    def search_fields(self):
+        return ("label", "title")
 
 
 class CardPerson(CMSPlugin, _LinkMixin, _CardStyleMixin):
@@ -880,6 +916,10 @@ class CardPerson(CMSPlugin, _LinkMixin, _CardStyleMixin):
 
     def __str__(self):
         return self.title
+
+    @property
+    def search_fields(self):
+        return ("title", "job_title", "summary")
 
     def card_class(self):
         classes = ["card", "card--person"]
@@ -895,6 +935,10 @@ class CardBylineItem(CMSPlugin, _LinkMixin):
 
     def __str__(self):
         return self.name
+
+    @property
+    def search_fields(self):
+        return ("name", "title")
 
 
 class CardMediaMention(CMSPlugin, _LinkMixin):
@@ -914,6 +958,10 @@ class CardMediaMention(CMSPlugin, _LinkMixin):
     def __str__(self):
         return self.title
 
+    @property
+    def search_fields(self):
+        return ("publication_name", "title", "summary")
+
     def card_class(self):
         classes = ["card", "card--media-mention"]
         if self.publication_slug:
@@ -930,6 +978,10 @@ class CardMediaMentionQuoted(CMSPlugin, _LinkMixin):
 
     def __str__(self):
         return self.publication_name
+
+    @property
+    def search_fields(self):
+        return ("publication_name", "quote")
 
     def card_class(self):
         classes = ["card", "card--media-mention-quoted"]

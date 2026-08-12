@@ -38,4 +38,15 @@ class NdthemesConfig(AppConfig):
         from .richtext import hide_editor_color_tools
 
         _patch_cms_delete_confirmation_context()
+        _patch_text_plugin_search_fields()
         hide_editor_color_tools()
+
+
+def _patch_text_plugin_search_fields():
+    """Index djangocms-text body content via the existing search_fields hook."""
+    from djangocms_text.models import Text
+
+    if hasattr(Text, "search_fields"):
+        return
+
+    Text.search_fields = property(lambda self: ("body",))

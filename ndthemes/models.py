@@ -556,6 +556,10 @@ class PersonListItem(CMSPlugin):
     def __str__(self):
         return f"{self.name}"
 
+    @property
+    def search_fields(self):
+        return ("name", "title", "summary")
+
 
 class SideNavigationChildList(CMSPlugin):
     order_choices = (
@@ -844,6 +848,10 @@ class PhoneNumber(CMSPlugin):
     def __str__(self):
         return f"{self.phone_number}"
 
+    @property
+    def search_fields(self):
+        return ("phone_number",)
+
 
 class ExternalLink(CMSPlugin):
     title = models.CharField(max_length=4096)
@@ -853,6 +861,10 @@ class ExternalLink(CMSPlugin):
     def __str__(self):
         return f"{self.title}"
 
+    @property
+    def search_fields(self):
+        return ("title", "description")
+
 
 class FullWidthImage(CMSPlugin):
     image = models.ImageField()
@@ -861,6 +873,10 @@ class FullWidthImage(CMSPlugin):
 
     def __str__(self):
         return f"{self.caption}"
+
+    @property
+    def search_fields(self):
+        return ("caption", "alt_text")
 
 
 class EventSeries(models.Model):
