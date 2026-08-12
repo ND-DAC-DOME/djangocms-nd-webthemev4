@@ -32,6 +32,7 @@ from .models import (
     SideNavigationChildList,
     SideNavigationDynamicFilter,
     SideNavigationPageLink,
+    SideNavigationRootList,
     SimpleText,
     Triptych,
 )
@@ -160,6 +161,14 @@ class SideNavigationChildListPlugin(CMSPluginBase):
     model = SideNavigationChildList
     name = _("Side Navigation Child Page List")
     render_template = "plugins/side_nav_children.html"
+    cache = False
+
+
+@plugin_pool.register_plugin
+class SideNavigationRootListPlugin(CMSPluginBase):
+    model = SideNavigationRootList
+    name = _("Side Navigation Root Page List")
+    render_template = "plugins/side_nav_root.html"
     cache = False
 
 

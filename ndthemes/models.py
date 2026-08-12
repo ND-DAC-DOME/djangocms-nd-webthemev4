@@ -11,7 +11,7 @@ from cms.models.pluginmodel import CMSPlugin
 from djangocms_text.fields import HTMLField
 
 from .images import resize_image
-from .utils import get_page_from_placeholder, pages_with_template
+from .utils import get_page_from_placeholder, page_is_self_or_ancestor, pages_with_template
 
 DEFAULT_LANGUAGE = "en"
 
@@ -559,7 +559,10 @@ class SideNavigationChildList(CMSPlugin):
     )
     tags = models.ManyToManyField(PageTag, blank=True, related_name="side_navigation_child_list_filters")
     link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
-    show_second_level_children = models.BooleanField(default=False)
+    show_second_level_children = models.BooleanField(
+        default=False,
+        help_text="When enabled, nested links appear only under the current section branch.",
+    )
     child_link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
 
     def _ordered(self, pages, order):
@@ -604,18 +607,26 @@ class SideNavigationChildList(CMSPlugin):
 
         page_list = []
         for page in pages:
+            branch_active = page_is_self_or_ancestor(page, current_page)
             page_list.append(
                 {
                     "page": page,
-                    "active": page == current_page,
+                    "active": branch_active,
+                    "current": page == current_page,
                     "children": [],
                 }
             )
-            if self.show_second_level_children:
+            if self.show_second_level_children and branch_active:
                 children = self._ordered(page.get_child_pages(), self.child_link_order)
                 for child in children:
+                    if not child.get_content_obj(language).in_navigation:
+                        continue
                     page_list[-1]["children"].append(
-                        {"page": child, "active": child == current_page}
+                        {
+                            "page": child,
+                            "active": page_is_self_or_ancestor(child, current_page),
+                            "current": child == current_page,
+                        }
                     )
         return page_list
 
@@ -629,6 +640,100 @@ class SideNavigationChildList(CMSPlugin):
 
     def __str__(self):
         return "Side Navigation Child List"
+
+
+class SideNavigationRootList(CMSPlugin):
+    """Side-nav links from children of the site root (top-level navigation)."""
+
+    order_choices = (
+        ("page-tree", "Page Order"),
+        ("name-asc", "Title (A → Z)"),
+        ("name-desc", "Title (Z → A)"),
+        ("date-asc", "Publication Date (Newest → Oldest)"),
+        ("date-desc", "Publication Date (Oldest → Newest)"),
+    )
+    tags = models.ManyToManyField(PageTag, blank=True, related_name="side_navigation_root_list_filters")
+    link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
+    show_second_level_children = models.BooleanField(
+        default=False,
+        help_text="When enabled, nested links appear only under the current section branch.",
+    )
+    child_link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
+
+    def _ordered(self, pages, order):
+        from .utils import page_sort_date
+
+        pages = list(pages)
+        if order == "name-desc":
+            pages.sort(key=lambda x: x.get_page_title(), reverse=True)
+        elif order == "name-asc":
+            pages.sort(key=lambda x: x.get_page_title())
+        elif order == "date-desc":
+            pages.sort(key=lambda x: page_sort_date(x) or DT.date.min, reverse=True)
+        elif order == "date-asc":
+            pages.sort(key=lambda x: page_sort_date(x) or DT.date.min)
+        else:
+            pages.sort(key=lambda x: x.path)
+        return pages
+
+    def get_root_items(self):
+        current_page = get_page_from_placeholder(self.placeholder)
+        if not current_page:
+            return []
+
+        root_page = current_page
+        while root_page.parent is not None:
+            root_page = root_page.parent
+
+        pages = root_page.get_child_pages()
+
+        if self.tags.all():
+            pages = pages.filter(pagepreviewextension__tags__in=self.tags.all()).distinct()
+
+        pages = self._ordered(pages, self.link_order)
+
+        language = current_page.get_content_obj().language
+        pages = [
+            page
+            for page in pages
+            if page.get_content_obj(language).in_navigation
+        ]
+
+        page_list = []
+        for page in pages:
+            branch_active = page_is_self_or_ancestor(page, current_page)
+            page_list.append(
+                {
+                    "page": page,
+                    "active": branch_active,
+                    "current": page == current_page,
+                    "children": [],
+                }
+            )
+            if self.show_second_level_children and branch_active:
+                children = self._ordered(page.get_child_pages(), self.child_link_order)
+                for child in children:
+                    if not child.get_content_obj(language).in_navigation:
+                        continue
+                    page_list[-1]["children"].append(
+                        {
+                            "page": child,
+                            "active": page_is_self_or_ancestor(child, current_page),
+                            "current": child == current_page,
+                        }
+                    )
+        return page_list
+
+    def copy_relations(self, oldinstance):
+        for tag in self.tags.all():
+            tag.side_navigation_root_list_filters.remove(self)
+            tag.save()
+        for tag in oldinstance.tags.all():
+            tag.side_navigation_root_list_filters.add(self)
+            tag.save()
+
+    def __str__(self):
+        return "Side Navigation Root List"
 
 
 class SideNavigationPageLink(CMSPlugin):

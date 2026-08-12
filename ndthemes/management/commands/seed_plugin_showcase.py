@@ -274,13 +274,14 @@ class Command(BaseCommand):
             "en",
             position="last-child",
             text=(
-                "This page demonstrates the Side Navigation plugin family (Side Navigation Child Page List, "
-                "Side Navigation Page Link, and the Side Navigation Dynamic Filter placeholder) rendered "
-                "in the page sidebar."
+                "This page demonstrates the Side Navigation plugin family (Side Navigation Root Page List, "
+                "Side Navigation Child Page List, Side Navigation Page Link, and the Side Navigation Dynamic "
+                "Filter placeholder) rendered in the page sidebar."
             ),
         )
 
         side_ph = clear_placeholder(showcase_sidenav, "Side Navigation")
+        add_plugin(side_ph, "SideNavigationRootListPlugin", "en", position="last-child", show_second_level_children=True)
         add_plugin(side_ph, "SideNavigationChildListPlugin", "en", position="last-child", show_second_level_children=True)
         add_plugin(
             side_ph,

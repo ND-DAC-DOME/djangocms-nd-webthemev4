@@ -29,6 +29,18 @@ def get_page_from_placeholder(placeholder):
     return getattr(source, "page", None)
 
 
+def page_is_self_or_ancestor(candidate, page):
+    """True if ``candidate`` is ``page`` or an ancestor of ``page``."""
+    if candidate is None or page is None:
+        return False
+    current = page
+    while current is not None:
+        if current.pk == candidate.pk:
+            return True
+        current = current.parent
+    return False
+
+
 def pages_with_template(template_name, queryset=None):
     """Return a ``Page`` queryset for pages whose (current-language) template matches.
 

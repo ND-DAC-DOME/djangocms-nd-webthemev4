@@ -1,7 +1,7 @@
 import datetime
 
 from .models import ArchivePageExtension, DateTime, Location, Setting
-from .utils import pages_with_template
+from .utils import page_is_self_or_ancestor, pages_with_template
 
 
 def navigation_tree(request):
@@ -19,16 +19,16 @@ def navigation_tree(request):
         if not content or not content.in_navigation:
             continue
 
+        branch_active = page_is_self_or_ancestor(child, request.current_page)
         child_obj = {
             "title": child.get_page_title(),
             "url": child.get_absolute_url(),
             "children": [],
-            "active": request.current_page == child,
+            "active": branch_active,
         }
 
-        grandchildren = child.get_child_pages()
-        if request.current_page == child or request.current_page in grandchildren:
-            for grandchild in grandchildren:
+        if branch_active:
+            for grandchild in child.get_child_pages():
                 grandchild_content = grandchild.get_content_obj(request.LANGUAGE_CODE, fallback=False)
                 if not grandchild_content or not grandchild_content.in_navigation:
                     continue
@@ -36,7 +36,7 @@ def navigation_tree(request):
                     {
                         "title": grandchild.get_page_title(),
                         "url": grandchild.get_absolute_url(),
-                        "active": request.current_page == grandchild,
+                        "active": page_is_self_or_ancestor(grandchild, request.current_page),
                     }
                 )
         nav_tree.append(child_obj)
