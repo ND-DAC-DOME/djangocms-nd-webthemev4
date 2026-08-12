@@ -41,6 +41,11 @@ def page_is_self_or_ancestor(candidate, page):
     return False
 
 
+def get_site_home_page():
+    """Return the absolute site home page (``is_home=True``), if any."""
+    return Page.objects.filter(is_home=True).first()
+
+
 def pages_with_template(template_name, queryset=None):
     """Return a ``Page`` queryset for pages whose (current-language) template matches.
 

@@ -11,7 +11,7 @@ from cms.models.pluginmodel import CMSPlugin
 from djangocms_text.fields import HTMLField
 
 from .images import resize_image
-from .utils import get_page_from_placeholder, page_is_self_or_ancestor, pages_with_template
+from .utils import get_page_from_placeholder, get_site_home_page, page_is_self_or_ancestor, pages_with_template
 
 DEFAULT_LANGUAGE = "en"
 
@@ -643,7 +643,7 @@ class SideNavigationChildList(CMSPlugin):
 
 
 class SideNavigationRootList(CMSPlugin):
-    """Side-nav links from children of the site root (top-level navigation)."""
+    """Side-nav links from children of the site home (absolute site root)."""
 
     order_choices = (
         ("page-tree", "Page Order"),
@@ -677,13 +677,13 @@ class SideNavigationRootList(CMSPlugin):
         return pages
 
     def get_root_items(self):
-        current_page = get_page_from_placeholder(self.placeholder)
-        if not current_page:
+        root_page = get_site_home_page()
+        if not root_page:
             return []
 
-        root_page = current_page
-        while root_page.parent is not None:
-            root_page = root_page.parent
+        # Current page is only used for active-state highlighting / language.
+        current_page = get_page_from_placeholder(self.placeholder) or root_page
+        language = current_page.get_content_obj().language
 
         pages = root_page.get_child_pages()
 
@@ -691,8 +691,6 @@ class SideNavigationRootList(CMSPlugin):
             pages = pages.filter(pagepreviewextension__tags__in=self.tags.all()).distinct()
 
         pages = self._ordered(pages, self.link_order)
-
-        language = current_page.get_content_obj().language
         pages = [
             page
             for page in pages
