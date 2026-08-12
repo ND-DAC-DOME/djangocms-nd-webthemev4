@@ -419,16 +419,29 @@ class Video(CMSPlugin):
 
         return video_embed_url(self.video_url)
 
+    def watch_url(self):
+        from .media_utils import video_watch_url
+
+        return video_watch_url(self.video_url)
+
     def thumbnail_url(self):
         from .media_utils import video_thumbnail_url
 
         return video_thumbnail_url(self.video_url)
 
-    def placeholder_class(self):
-        classes = ["video", f"video--{self.style}"]
+    def file_type(self):
+        from .media_utils import video_file_type
+
+        return video_file_type(self.video_url)
+
+    def wrapper_class(self):
+        classes = ["video--wrapper"]
         if self.alignment:
             classes.append(f"video--{self.alignment}")
         return " ".join(classes)
+
+    def placeholder_class(self):
+        return f"video video--{self.style}"
 
 
 class Avatar(CMSPlugin):

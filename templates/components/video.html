@@ -1,5 +1,21 @@
-{% if instance.display_type == "embed" and instance.embed_url %}
-<div class="video video--embed{% if instance.alignment %} video--{{ instance.alignment }}{% endif %}">
+{% if instance.file_type %}
+<div class="{{ instance.wrapper_class }}">
+  <figure>
+    <video controls playsinline preload="metadata" width="1280" height="720"{% if instance.label %} title="{{ instance.label }}"{% endif %}>
+      <source src="{{ instance.video_url }}" type="{{ instance.file_type }}">
+    </video>
+    {% if instance.label %}<figcaption>{{ instance.label }}</figcaption>{% endif %}
+  </figure>
+</div>
+{% elif instance.display_type == "placeholder" and instance.thumbnail_url %}
+{# ndt.js turns the link text into the play button label and replaces the parent element's contents on click, so the link needs its own wrapper. #}
+<div class="{{ instance.wrapper_class }}">
+  <a class="{{ instance.placeholder_class }}" href="{{ instance.watch_url }}">
+    <figure><img src="{{ instance.thumbnail_url }}" width="1280" height="720" alt="{% if not instance.label %}Play video{% endif %}"></figure>{{ instance.label }}
+  </a>
+</div>
+{% elif instance.embed_url %}
+<div class="{{ instance.wrapper_class }} video--embed">
   <iframe
     width="1280"
     height="720"
@@ -11,14 +27,6 @@
     allowfullscreen
   ></iframe>
 </div>
-{% else %}
-<a class="{{ instance.placeholder_class }}" href="{{ instance.video_url }}">
-  {% if instance.thumbnail_url %}
-  <figure><img src="{{ instance.thumbnail_url }}" width="1280" height="720" alt="{{ instance.label|default:'Video' }}"></figure>
-  {% endif %}
-  {% if instance.label %}<span class="video-label">{{ instance.label }}</span>{% endif %}
-  <div class="play">
-    {% if instance.label %}<span class="play-label">{{ instance.label }}</span>{% endif %}
-  </div>
-</a>
+{% elif instance.video_url %}
+<p><a href="{{ instance.video_url }}">{{ instance.label|default:"Watch the video" }}</a></p>
 {% endif %}
