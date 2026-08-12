@@ -40,6 +40,15 @@
     background-image: none !important;
   }
 
+  /* Person cards in a grid: NDT draws a top rule on .card-summary. That reads
+     as a stray bottom border under job titles (especially with an empty/near-
+     empty summary). Drop it in grid layouts. */
+  .grid .card--person .card-summary:not(:empty) {
+    border-top: none;
+    margin-block-start: 0;
+    padding-block-start: 0;
+  }
+
   /* Screen / container page header without a hero image: push title below site chrome.
      NDT page-header--screen expects a full-bleed image; an empty figure leaves
      the page title in the same grid row as the site header. */

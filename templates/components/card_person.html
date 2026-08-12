@@ -4,9 +4,9 @@
     <figure class="avatar avatar--lg card-image"><img alt="{{ instance.alt_text|default:instance.title }}" src="{{ instance.image.url }}"></figure>
     {% endif %}
     <div class="card-body">
-      <h2 class="card-title"><a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a></h2>
-      {% if instance.job_title %}<p class="person-title">{{ instance.job_title }}</p>{% endif %}
-      <p class="card-summary">{% if instance.summary %}{{ instance.summary|safe }}{% endif %}</p>
+      <h2 class="card-title">{% include "components/_card_title.html" %}</h2>
+      {% if instance.job_title %}<div class="person-title">{{ instance.job_title|safe }}</div>{% endif %}
+      {% if instance.summary %}<div class="card-summary">{{ instance.summary|safe }}</div>{% endif %}
     </div>
   </div>
 </div>

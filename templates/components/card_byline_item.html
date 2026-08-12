@@ -4,7 +4,11 @@
   {% endif %}
   <div class="byline-body">
     <p class="byline-title">
+      {% if instance.has_link %}
       <a class="byline-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.name }}</a>
+      {% else %}
+      {{ instance.name }}
+      {% endif %}
     </p>
     {% if instance.title %}<p class="person-title">{{ instance.title }}</p>{% endif %}
   </div>

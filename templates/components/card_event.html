@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <h2 class="article-title card-title" property="name">
-        <a href="{{ instance.get_href }}" class="card-link"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+        {% include "components/_card_title.html" %}
       </h2>
       {% if instance.description %}<meta property="description" content="{{ instance.description }}">{% endif %}
       <div class="article-meta">

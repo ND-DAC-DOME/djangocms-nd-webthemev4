@@ -21,8 +21,10 @@
       </div>
       {% endif %}
     </div>
+    {% if instance.has_link %}
     <div class="card-meta">
       <a class="card-btn" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.link_text }}</a>
     </div>
+    {% endif %}
   </div>
 </div>

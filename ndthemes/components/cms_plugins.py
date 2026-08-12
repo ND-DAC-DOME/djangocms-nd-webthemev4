@@ -19,6 +19,7 @@ from .models import (
     CardDefault,
     CardEvent,
     CardFeatured,
+    CardGrid,
     CardList,
     CardMediaMention,
     CardMediaMentionQuoted,
@@ -455,6 +456,15 @@ class NDTCardListPlugin(NDTCardPluginBase):
     model = CardList
     name = _("Card list")
     render_template = "components/card_list.html"
+    allow_children = True
+    child_classes = CARD_CHILD_PLUGINS
+
+
+@plugin_pool.register_plugin
+class NDTCardGridPlugin(NDTCardPluginBase):
+    model = CardGrid
+    name = _("Card grid")
+    render_template = "components/card_grid.html"
     allow_children = True
     child_classes = CARD_CHILD_PLUGINS
 

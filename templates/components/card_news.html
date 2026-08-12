@@ -6,7 +6,7 @@
     <div class="card-body">
       {% if instance.label %}<p class="card-label">{{ instance.label }}</p>{% endif %}
       <h2 class="article-title card-title" property="headline">
-        <a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+        {% include "components/_card_title.html" %}
       </h2>
       {% if instance.summary %}<div class="card-summary">{{ instance.summary|safe }}</div>{% endif %}
       {% if instance.author_name or instance.publish_date %}

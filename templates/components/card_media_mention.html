@@ -12,7 +12,7 @@
       {% endif %}
       <div class="card-content">
         <h2 class="card-title entry-title">
-          <a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a>
+          {% include "components/_card_title.html" %}
         </h2>
         {% if instance.summary or instance.mention_date %}
         <div class="card-summary">

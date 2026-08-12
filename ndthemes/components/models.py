@@ -480,10 +480,14 @@ class _LinkMixin(models.Model):
     class Meta:
         abstract = True
 
+    def has_link(self):
+        return bool(self.link_id or (self.external_link or "").strip())
+
     def get_href(self):
         if self.link_id:
             return self.link.get_absolute_url()
-        return self.external_link or "#"
+        href = (self.external_link or "").strip()
+        return href or "#"
 
     def is_external(self):
         if self.link_id:
@@ -803,6 +807,11 @@ class CardList(CMSPlugin):
         return "Card list"
 
 
+class CardGrid(CMSPlugin):
+    def __str__(self):
+        return "Card grid"
+
+
 class CardDefault(CMSPlugin, _LinkMixin, _CardStyleMixin):
     title = models.CharField(max_length=512)
     summary = HTMLField(blank=True, default="")
@@ -864,7 +873,7 @@ class CardFeatured(CMSPlugin, _LinkMixin):
 
 class CardPerson(CMSPlugin, _LinkMixin, _CardStyleMixin):
     title = models.CharField(max_length=512, help_text="Person name")
-    job_title = models.CharField(max_length=255, blank=True, default="")
+    job_title = HTMLField(blank=True, default="")
     summary = HTMLField(blank=True, default="")
     image = models.ImageField(upload_to="ndthemes/cards/", blank=True, null=True)
     alt_text = models.CharField(max_length=255, blank=True, default="")

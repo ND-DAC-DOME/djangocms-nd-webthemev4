@@ -121,7 +121,7 @@ Re-run safely; the showcase placeholder is cleared and rebuilt each time.
 |----------|---------|
 | **NDT / Content** | Accordion (+ item), Notice, Heading, Quote, Stat list (+ stat), Tabs (+ panel), List (+ item), Table, Timeline (+ item), FAQ (+ item), Dialog, Footnote list (+ item), Button, Byline, Icon, Sticker, Social share, Video button |
 | **NDT / Layout** | Banner (+ image, accordion panel, cards, gallery child), Page header, Nav anchor (+ item), Pagination (+ item), Button group/list (+ item), Icon button, Lede button |
-| **NDT / Cards** | Card list; Default, News, Event, Featured, People, Media mention, Media mention (quoted), Byline item |
+| **NDT / Cards** | Card list, Card grid; Default, News, Event, Featured, People, Media mention, Media mention (quoted), Byline item |
 | **NDT / Media** | Gallery (+ item), Image single, Image multiple (+ item), Video, Avatar |
 | **NDT / Forms** | Form (+ field), Search form |
 

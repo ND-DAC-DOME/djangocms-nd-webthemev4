@@ -5,7 +5,7 @@
     {% endif %}
     <div class="card-body">
       {% if instance.label %}<p class="card-label"><span>{{ instance.label }}</span></p>{% endif %}
-      <h2 class="card-title"><a class="card-link" href="{{ instance.get_href }}"{% include "components/_link_attrs.html" %}>{{ instance.title }}</a></h2>
+      <h2 class="card-title">{% include "components/_card_title.html" %}</h2>
     </div>
   </div>
 </div>

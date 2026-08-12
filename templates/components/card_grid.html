@@ -1,0 +1,9 @@
+{% load cms_tags %}
+{# Max 3 cols so fewer cards still fill the row; mobile stacks, md=2, ml+=3 #}
+<div class="grid grid-md-2 grid-ml-3">
+  {% for plugin in instance.child_plugin_instances %}
+  {% render_plugin plugin %}
+  {% empty %}
+  <p class="notice">Add cards here.</p>
+  {% endfor %}
+</div>

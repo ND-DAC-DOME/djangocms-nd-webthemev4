@@ -943,6 +943,7 @@ from .components.models import (  # noqa: E402,F401
     CardDefault,
     CardEvent,
     CardFeatured,
+    CardGrid,
     CardList,
     CardMediaMention,
     CardMediaMentionQuoted,
