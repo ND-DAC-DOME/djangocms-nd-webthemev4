@@ -29,6 +29,7 @@ urlpatterns += i18n_patterns(
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     path(settings.ADMIN_URL, admin.site.urls),
     path("filer/", include("filer.urls")),
+    prefix_default_language=settings.PREFIX_DEFAULT_LANGUAGE,
 )
 
 if settings.OKTA_AUTH:
@@ -42,6 +43,7 @@ else:
 
 urlpatterns += i18n_patterns(
     path("", include("cms.urls")),
+    prefix_default_language=settings.PREFIX_DEFAULT_LANGUAGE,
 )
 
 if settings.DEBUG:

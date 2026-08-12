@@ -28,6 +28,9 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 LANGUAGES = [
     ("en", _("English")),
 ]
+# When False, the default language (LANGUAGE_CODE) is not prefixed in URLs
+# (e.g. "/" instead of "/en/"). Override with DJANGO_PREFIX_DEFAULT_LANGUAGE=True.
+PREFIX_DEFAULT_LANGUAGE = env.bool("DJANGO_PREFIX_DEFAULT_LANGUAGE", default=False)
 
 # PostgreSQL via DATABASE_URL (required). Docker Compose entrypoint sets this from POSTGRES_* env vars.
 DATABASES = {"default": env.db("DATABASE_URL")}
