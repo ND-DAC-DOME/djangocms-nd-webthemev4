@@ -41,9 +41,56 @@ def page_is_self_or_ancestor(candidate, page):
     return False
 
 
-def get_site_home_page():
-    """Return the absolute site home page (``is_home=True``), if any."""
-    return Page.objects.filter(is_home=True).first()
+def get_site_home_page(site=None):
+    """Return the absolute site home page (``is_home=True``), if any.
+
+    Prefer the given ``site`` (or ``settings.SITE_ID``) so multi-site
+    production installs do not pick another site's empty homepage.
+    """
+    from django.conf import settings
+
+    qs = Page.objects.filter(is_home=True)
+    if site is not None:
+        qs = qs.filter(site=site)
+    elif getattr(settings, "SITE_ID", None):
+        qs = qs.filter(site_id=settings.SITE_ID)
+    return qs.first()
+
+
+def get_site_root_nav_pages(site=None):
+    """Return ``(home, pages)`` for absolute top-level site navigation.
+
+    Prefer children of the site home (standard ND tree / ``show_menu`` level 0
+    when home is hidden from nav). If home has no children, fall back to other
+    root-level pages (``parent is None``).
+    """
+    from django.conf import settings
+
+    home = get_site_home_page(site=site)
+    if home is not None:
+        children = list(home.get_child_pages())
+        if children:
+            return home, children
+
+    qs = Page.objects.filter(parent__isnull=True)
+    if site is not None:
+        qs = qs.filter(site=site)
+    elif getattr(settings, "SITE_ID", None):
+        qs = qs.filter(site_id=settings.SITE_ID)
+    if home is not None:
+        qs = qs.exclude(pk=home.pk)
+    return home, list(qs)
+
+
+def page_content_in_navigation(page, language):
+    """True when the page has real content in ``language`` marked in navigation."""
+    if page is None:
+        return False
+    content = page.get_content_obj(language, fallback=True)
+    if not content:
+        return False
+    # EmptyPageContent is falsy and has in_navigation=False; still guard explicitly.
+    return bool(getattr(content, "in_navigation", False))
 
 
 def pages_with_template(template_name, queryset=None):

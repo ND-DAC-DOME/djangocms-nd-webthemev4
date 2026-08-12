@@ -1,4 +1,4 @@
-{% for item in instance.get_root_items %}
+{% for item in nav_items %}
 <li{% if forloop.first %} class="first"{% elif forloop.last %} class="last"{% elif item.children %} class="li-has-children{% if item.active %} active{% endif %}"{% elif item.active %} class="active"{% endif %}>
   <a href="{{ item.page.get_absolute_url }}"{% if item.current %} class="current" aria-current="page"{% endif %}>{{ item.page.get_page_title }}</a>
   {% if item.children %}
@@ -11,4 +11,6 @@
   </ul>
   {% endif %}
 </li>
+{% empty %}
+{# No top-level in-navigation pages under the site home. #}
 {% endfor %}

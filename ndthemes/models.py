@@ -11,7 +11,13 @@ from cms.models.pluginmodel import CMSPlugin
 from djangocms_text.fields import HTMLField
 
 from .images import resize_image
-from .utils import get_page_from_placeholder, get_site_home_page, page_is_self_or_ancestor, pages_with_template
+from .utils import (
+    get_page_from_placeholder,
+    get_site_root_nav_pages,
+    page_content_in_navigation,
+    page_is_self_or_ancestor,
+    pages_with_template,
+)
 
 DEFAULT_LANGUAGE = "en"
 
@@ -676,26 +682,46 @@ class SideNavigationRootList(CMSPlugin):
             pages.sort(key=lambda x: x.path)
         return pages
 
-    def get_root_items(self):
-        root_page = get_site_home_page()
-        if not root_page:
+    def get_root_items(self, request=None):
+        site = getattr(request, "site", None) if request is not None else None
+        if request is not None and site is None:
+            from django.contrib.sites.shortcuts import get_current_site
+
+            try:
+                site = get_current_site(request)
+            except Exception:
+                site = None
+
+        home, pages = get_site_root_nav_pages(site=site)
+        if not pages:
             return []
 
-        # Current page is only used for active-state highlighting / language.
-        current_page = get_page_from_placeholder(self.placeholder) or root_page
-        language = current_page.get_content_obj().language
+        # Prefer the live request page for active state / language.
+        current_page = getattr(request, "current_page", None) if request is not None else None
+        if current_page is None:
+            current_page = get_page_from_placeholder(self.placeholder) or home
 
-        pages = root_page.get_child_pages()
+        if request is not None and getattr(request, "LANGUAGE_CODE", None):
+            language = request.LANGUAGE_CODE
+        elif current_page is not None:
+            content = current_page.get_content_obj(fallback=True)
+            language = getattr(content, "language", None) or "en"
+        else:
+            language = "en"
 
-        if self.tags.all():
-            pages = pages.filter(pagepreviewextension__tags__in=self.tags.all()).distinct()
+        if self.pk and self.tags.exists():
+            tag_ids = set(self.tags.values_list("pk", flat=True))
+            filtered = []
+            for page in pages:
+                extension = getattr(page, "pagepreviewextension", None)
+                if extension is None:
+                    continue
+                if extension.tags.filter(pk__in=tag_ids).exists():
+                    filtered.append(page)
+            pages = filtered
 
         pages = self._ordered(pages, self.link_order)
-        pages = [
-            page
-            for page in pages
-            if page.get_content_obj(language).in_navigation
-        ]
+        pages = [page for page in pages if page_content_in_navigation(page, language)]
 
         page_list = []
         for page in pages:
@@ -711,7 +737,7 @@ class SideNavigationRootList(CMSPlugin):
             if self.show_second_level_children and branch_active:
                 children = self._ordered(page.get_child_pages(), self.child_link_order)
                 for child in children:
-                    if not child.get_content_obj(language).in_navigation:
+                    if not page_content_in_navigation(child, language):
                         continue
                     page_list[-1]["children"].append(
                         {

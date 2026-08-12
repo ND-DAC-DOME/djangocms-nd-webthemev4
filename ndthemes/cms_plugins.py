@@ -160,22 +160,64 @@ class PersonListItemPlugin(CMSPluginBase):
 class SideNavigationChildListPlugin(CMSPluginBase):
     model = SideNavigationChildList
     name = _("Side Navigation Child Page List")
+    module = _("Side Navigation")
     render_template = "plugins/side_nav_children.html"
     cache = False
+    fieldsets = [
+        (
+            None,
+            {
+                "description": _(
+                    "Section-relative links: pages related to the current page’s place "
+                    "in the tree (siblings / section children)."
+                ),
+                "fields": (
+                    "tags",
+                    "link_order",
+                    "show_second_level_children",
+                    "child_link_order",
+                ),
+            },
+        ),
+    ]
 
 
 @plugin_pool.register_plugin
 class SideNavigationRootListPlugin(CMSPluginBase):
     model = SideNavigationRootList
     name = _("Side Navigation Root Page List")
+    module = _("Side Navigation")
     render_template = "plugins/side_nav_root.html"
     cache = False
+    fieldsets = [
+        (
+            None,
+            {
+                "description": _(
+                    "Absolute site-root links: always lists children of the site home "
+                    "page (same top-level tree as the home side nav), not the current section."
+                ),
+                "fields": (
+                    "tags",
+                    "link_order",
+                    "show_second_level_children",
+                    "child_link_order",
+                ),
+            },
+        ),
+    ]
+
+    def render(self, context, instance, placeholder):
+        context = super().render(context, instance, placeholder)
+        context["nav_items"] = instance.get_root_items(request=context.get("request"))
+        return context
 
 
 @plugin_pool.register_plugin
 class SideNavigationPageLinkPlugin(CMSPluginBase):
     model = SideNavigationPageLink
     name = _("Side Navigation Page Link")
+    module = _("Side Navigation")
     render_template = "plugins/side_nav_pagelink.html"
     cache = False
 
@@ -184,6 +226,7 @@ class SideNavigationPageLinkPlugin(CMSPluginBase):
 class SideNavigationDynamicFilterPlugin(CMSPluginBase):
     model = SideNavigationDynamicFilter
     name = _("Side Navigation Dynamic Filter")
+    module = _("Side Navigation")
     render_template = "plugins/side_nav_dynamic_filter.html"
     cache = False
 
