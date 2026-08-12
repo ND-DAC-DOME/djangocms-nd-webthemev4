@@ -29,16 +29,62 @@ def get_page_from_placeholder(placeholder):
     return getattr(source, "page", None)
 
 
+def resolve_current_page(request=None, placeholder=None):
+    """Best-effort current CMS page from request, toolbar, or placeholder."""
+    page = getattr(request, "current_page", None) if request is not None else None
+    if page is not None:
+        return page
+
+    if request is not None:
+        toolbar = getattr(request, "toolbar", None)
+        if toolbar is not None:
+            page = getattr(toolbar, "page", None)
+            if page is not None:
+                return page
+            obj = getattr(toolbar, "obj", None)
+            if isinstance(obj, PageContent):
+                return obj.page
+            if obj is not None and getattr(obj, "page", None) is not None:
+                return obj.page
+
+    return get_page_from_placeholder(placeholder)
+
+
 def page_is_self_or_ancestor(candidate, page):
     """True if ``candidate`` is ``page`` or an ancestor of ``page``."""
     if candidate is None or page is None:
         return False
+    try:
+        if candidate.pk == page.pk:
+            return True
+    except Exception:
+        return False
+
+    # Prefer path prefix (django CMS / treebeard) — more reliable than parent
+    # walks when page instances come from different query paths.
+    c_path = getattr(candidate, "path", None) or ""
+    p_path = getattr(page, "path", None) or ""
+    if c_path and p_path and len(p_path) > len(c_path) and p_path.startswith(c_path):
+        return True
+
     current = page
-    while current is not None:
+    seen = set()
+    while current is not None and current.pk not in seen:
+        seen.add(current.pk)
         if current.pk == candidate.pk:
             return True
         current = current.parent
     return False
+
+
+def pages_equal(a, b):
+    """True if both are the same CMS page (pk compare)."""
+    if a is None or b is None:
+        return False
+    try:
+        return a.pk == b.pk
+    except Exception:
+        return False
 
 
 def get_site_home_page(site=None):

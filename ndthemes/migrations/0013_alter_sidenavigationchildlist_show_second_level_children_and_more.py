@@ -6,18 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ndthemes', '0012_sidenavigationrootlist'),
+        ("ndthemes", "0012_sidenavigationrootlist"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sidenavigationchildlist',
-            name='show_second_level_children',
-            field=models.BooleanField(default=False, help_text='When enabled, nested links appear only under the current section branch.'),
+            model_name="sidenavigationchildlist",
+            name="show_second_level_children",
+            field=models.BooleanField(
+                default=False,
+                help_text="When enabled, nested links appear only under the current section branch.",
+            ),
         ),
         migrations.AlterField(
-            model_name='sidenavigationrootlist',
-            name='show_second_level_children',
-            field=models.BooleanField(default=False, help_text='When enabled, nested links appear only under the current section branch.'),
+            model_name="sidenavigationrootlist",
+            name="show_second_level_children",
+            field=models.BooleanField(
+                default=False,
+                help_text="When enabled, nested links appear only under the current section branch.",
+            ),
         ),
     ]

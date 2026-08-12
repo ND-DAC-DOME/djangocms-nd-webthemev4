@@ -16,7 +16,9 @@ from .utils import (
     get_site_root_nav_pages,
     page_content_in_navigation,
     page_is_self_or_ancestor,
+    pages_equal,
     pages_with_template,
+    resolve_current_page,
 )
 
 DEFAULT_LANGUAGE = "en"
@@ -661,7 +663,7 @@ class SideNavigationRootList(CMSPlugin):
     tags = models.ManyToManyField(PageTag, blank=True, related_name="side_navigation_root_list_filters")
     link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
     show_second_level_children = models.BooleanField(
-        default=False,
+        default=True,
         help_text="When enabled, nested links appear only under the current section branch.",
     )
     child_link_order = models.CharField(max_length=255, blank=True, null=True, choices=order_choices, default="page-tree")
@@ -693,13 +695,12 @@ class SideNavigationRootList(CMSPlugin):
                 site = None
 
         home, pages = get_site_root_nav_pages(site=site)
-        if not pages:
+        if home is None and not pages:
             return []
 
-        # Prefer the live request page for active state / language.
-        current_page = getattr(request, "current_page", None) if request is not None else None
+        current_page = resolve_current_page(request=request, placeholder=self.placeholder)
         if current_page is None:
-            current_page = get_page_from_placeholder(self.placeholder) or home
+            current_page = home
 
         if request is not None and getattr(request, "LANGUAGE_CODE", None):
             language = request.LANGUAGE_CODE
@@ -724,26 +725,44 @@ class SideNavigationRootList(CMSPlugin):
         pages = [page for page in pages if page_content_in_navigation(page, language)]
 
         page_list = []
+
+        # Always lead with the absolute site home link.
+        if home is not None:
+            on_home = pages_equal(home, current_page)
+            page_list.append(
+                {
+                    "page": home,
+                    "active": on_home,
+                    "current": on_home,
+                    "children": [],
+                }
+            )
+
         for page in pages:
             branch_active = page_is_self_or_ancestor(page, current_page)
             page_list.append(
                 {
                     "page": page,
                     "active": branch_active,
-                    "current": page == current_page,
+                    "current": pages_equal(page, current_page),
                     "children": [],
                 }
             )
             if self.show_second_level_children and branch_active:
                 children = self._ordered(page.get_child_pages(), self.child_link_order)
                 for child in children:
-                    if not page_content_in_navigation(child, language):
+                    # Include in-nav children, plus the current page even if it
+                    # is not marked in navigation (so the active leaf still shows).
+                    if not (
+                        page_content_in_navigation(child, language)
+                        or pages_equal(child, current_page)
+                    ):
                         continue
                     page_list[-1]["children"].append(
                         {
                             "page": child,
                             "active": page_is_self_or_ancestor(child, current_page),
-                            "current": child == current_page,
+                            "current": pages_equal(child, current_page),
                         }
                     )
         return page_list
