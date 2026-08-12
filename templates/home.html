@@ -1,11 +1,16 @@
 {% extends "base_ndt.html" %}
-{% load cms_tags %}
+{% load cms_tags menu_tags %}
 
+{# Storybook: Templates / Home Page — Default
+   https://webtheme.nd.edu/?path=/story/templates-home-page--default
+   nav-top--false, default page-header, primary + secondary + sidebar #}
 {% block body_class %} home{% endblock %}
+{% block wrapper_class %} nav-top--false{% endblock %}
 
-{# Storybook: Templates / Home Page — Default hero (top nav) #}
+{% block site_header %}{% include "includes/site_header_sidenav.html" %}{% endblock %}
+
 {% block page_header %}
-<div class="page-header animate">
+<div class="page-header">
   <figure class="page-image">
     {% placeholder "Page Image" %}
   </figure>
@@ -18,8 +23,19 @@
 
 {% block content %}
 <div class="page-primary">
-  {% placeholder "Page Intro" %}
-  {% placeholder "Page Content" %}
+  <div class="section home-primary">
+    {% placeholder "Page Intro" %}
+    {% placeholder "Page Content" %}
+  </div>
 </div>
-{% placeholder "Page Secondary" %}
+<div class="page-secondary">
+  {% placeholder "Page Secondary" %}
+</div>
+<div class="page-sidebar">
+  <nav id="nav" class="nav-site nav-site--section" aria-label="Section">
+    <div id="nav_sub">
+      {% show_menu 0 100 100 100 "includes/menu_mobile.html" %}
+    </div>
+  </nav>
+</div>
 {% endblock %}

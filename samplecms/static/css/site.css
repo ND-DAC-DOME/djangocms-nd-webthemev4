@@ -141,15 +141,24 @@
     background: #000;
   }
 
-  /* Hero video: fill the page-image frame like a featured image. */
-  .page-header .page-image:has(video, iframe, a.video, .video-file) {
+  /*
+   * Full-bleed heroes (container / screen): absolutely fill the page-image frame.
+   * Do NOT apply this to inset/fade — those rely on intrinsic grid row height
+   * (title | image side-by-side). Absolute fill collapses the inset header.
+   */
+  .page-header--container .page-image:has(video, iframe, a.video, .video-file),
+  .page-header--screen .page-image:has(video, iframe, a.video, .video-file) {
     position: relative;
   }
 
-  .page-header .page-image .video--wrapper,
-  .page-header .page-image .video--embed,
-  .page-header .page-image .video-file,
-  .page-header .page-image a.video {
+  .page-header--container .page-image .video--wrapper,
+  .page-header--container .page-image .video--embed,
+  .page-header--container .page-image .video-file,
+  .page-header--container .page-image a.video,
+  .page-header--screen .page-image .video--wrapper,
+  .page-header--screen .page-image .video--embed,
+  .page-header--screen .page-image .video-file,
+  .page-header--screen .page-image a.video {
     position: absolute;
     inset: 0;
     margin: 0;
@@ -158,9 +167,12 @@
     block-size: 100%;
   }
 
-  .page-header .page-image .video--wrapper figure,
-  .page-header .page-image .video-file__preview,
-  .page-header .page-image a.video figure {
+  .page-header--container .page-image .video--wrapper figure,
+  .page-header--container .page-image .video-file__preview,
+  .page-header--container .page-image a.video figure,
+  .page-header--screen .page-image .video--wrapper figure,
+  .page-header--screen .page-image .video-file__preview,
+  .page-header--screen .page-image a.video figure {
     position: absolute;
     inset: 0;
     margin: 0;
@@ -168,16 +180,97 @@
     block-size: 100%;
   }
 
-  .page-header .page-image .video--wrapper > figure > video,
-  .page-header .page-image .video-file__preview video,
-  .page-header .page-image .video--embed iframe,
-  .page-header .page-image a.video img {
+  .page-header--container .page-image .video--wrapper > figure > video,
+  .page-header--container .page-image .video-file__preview video,
+  .page-header--container .page-image .video--embed iframe,
+  .page-header--container .page-image a.video img,
+  .page-header--screen .page-image .video--wrapper > figure > video,
+  .page-header--screen .page-image .video-file__preview video,
+  .page-header--screen .page-image .video--embed iframe,
+  .page-header--screen .page-image a.video img {
     position: absolute;
     inset: 0;
     inline-size: 100%;
     block-size: 100%;
     max-block-size: none;
     object-fit: cover;
+  }
+
+  /*
+   * Inset / fade / default: keep media in normal flow so the header grid
+   * gets a real row height (title left, media right for inset).
+   */
+  .page-header--inset .page-image .video--wrapper,
+  .page-header--inset .page-image .video-file,
+  .page-header--inset .page-image .video--embed,
+  .page-header--inset .page-image a.video,
+  .page-header--fade .page-image .video--wrapper,
+  .page-header--fade .page-image .video-file,
+  .page-header--fade .page-image .video--embed,
+  .page-header--fade .page-image a.video,
+  .page-header:not([class*="page-header--"]) .page-image .video--wrapper,
+  .page-header:not([class*="page-header--"]) .page-image .video-file,
+  .page-header:not([class*="page-header--"]) .page-image .video--embed,
+  .page-header:not([class*="page-header--"]) .page-image a.video {
+    position: relative;
+    display: block;
+    margin: 0;
+    inline-size: 100%;
+  }
+
+  .page-header--inset .page-image .video-file__preview,
+  .page-header--inset .page-image .video--wrapper figure,
+  .page-header--inset .page-image a.video figure,
+  .page-header--fade .page-image .video-file__preview,
+  .page-header--fade .page-image .video--wrapper figure,
+  .page-header--fade .page-image a.video figure,
+  .page-header:not([class*="page-header--"]) .page-image .video-file__preview,
+  .page-header:not([class*="page-header--"]) .page-image .video--wrapper figure,
+  .page-header:not([class*="page-header--"]) .page-image a.video figure {
+    position: relative;
+    margin: 0;
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: clip;
+  }
+
+  .page-header--inset .page-image .video-file__preview video,
+  .page-header--inset .page-image .video--wrapper > figure > video,
+  .page-header--inset .page-image .video--embed iframe,
+  .page-header--inset .page-image a.video img,
+  .page-header--fade .page-image .video-file__preview video,
+  .page-header--fade .page-image .video--wrapper > figure > video,
+  .page-header--fade .page-image .video--embed iframe,
+  .page-header--fade .page-image a.video img,
+  .page-header:not([class*="page-header--"]) .page-image .video-file__preview video,
+  .page-header:not([class*="page-header--"]) .page-image .video--wrapper > figure > video,
+  .page-header:not([class*="page-header--"]) .page-image .video--embed iframe,
+  .page-header:not([class*="page-header--"]) .page-image a.video img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .page-header--inset .page-image .video-file__play,
+  .page-header--fade .page-image .video-file__play,
+  .page-header:not([class*="page-header--"]) .page-image .video-file__play {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Hide empty hero text so inset/fade don't reserve a blank title column. */
+  .page-header .page-lede:empty {
+    display: none;
+  }
+
+  .page-header--inset:has(.page-title:empty):not(:has(.page-lede:not(:empty))) .page-title-wrapper {
+    display: none;
+  }
+
+  .page-header--inset:has(.page-title:empty):not(:has(.page-lede:not(:empty))) .page-image {
+    grid-column: container;
   }
 
   .page-header .page-image .video--wrapper figcaption {
