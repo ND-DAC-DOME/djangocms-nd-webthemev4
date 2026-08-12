@@ -7,11 +7,14 @@ optional versioning package installed, no draft/public publish step: content
 is live as soon as it is saved. Search indexing therefore happens whenever a
 plugin with ``search_fields`` is saved, rather than at publish time.
 """
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete, post_save, pre_save
 from django.dispatch import receiver
 
 from cms.models import CMSPlugin, PageContent
+from djangocms_text.fields import HTMLField
+from djangocms_text.models import Text
 
+from .richtext import scrub_document, scrub_inline_styles
 from .utils import get_page_from_placeholder
 
 
@@ -60,3 +63,32 @@ def pagecontent_deleted_receiver(sender, instance, **kwargs):
     from .models import PageContentIndex
 
     PageContentIndex.objects.filter(page_id=instance.page_id).delete()
+
+
+@receiver(pre_save, sender=Text)
+def text_plugin_scrubbed_receiver(sender, instance, **kwargs):
+    """Drop pasted colours and fonts so Text plugins follow the NDT theme tokens."""
+    instance.body = scrub_inline_styles(instance.body)
+    if instance.json:
+        instance.json = scrub_document(instance.json)
+
+
+_html_field_names = {}
+
+
+def get_html_field_names(model):
+    """Cached tuple of ``HTMLField`` names declared on ``model``."""
+    if model not in _html_field_names:
+        _html_field_names[model] = tuple(
+            field.name for field in model._meta.concrete_fields if isinstance(field, HTMLField)
+        )
+    return _html_field_names[model]
+
+
+@receiver(pre_save)
+def html_field_scrubbed_receiver(sender, instance, **kwargs):
+    """Apply the same scrubbing to component plugins' ``HTMLField`` content."""
+    for name in get_html_field_names(sender):
+        value = getattr(instance, name, None)
+        if value:
+            setattr(instance, name, scrub_inline_styles(value))

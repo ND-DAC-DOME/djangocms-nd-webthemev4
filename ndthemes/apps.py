@@ -31,8 +31,11 @@ class NdthemesConfig(AppConfig):
     verbose_name = "ND Themes"
 
     def ready(self):
-        # connect signal receivers (search index, event/page title sync)
+        # connect signal receivers (search index, event/page title sync,
+        # rich text colour scrubbing)
         from . import signals  # noqa: F401
         from .components import cms_plugins  # noqa: F401
+        from .richtext import hide_editor_color_tools
 
         _patch_cms_delete_confirmation_context()
+        hide_editor_color_tools()
