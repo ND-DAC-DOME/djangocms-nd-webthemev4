@@ -6,11 +6,11 @@
   /* NDT4 dark mode sets html/body to #091b34 while footer, cards, and other
      surfaces use --brand-blue (#0c2340). Align the page canvas so those
      surfaces do not show a darker frame at the edges. */
-  html:has(body[data-theme="dark"]),
+  /* html:has(body[data-theme="dark"]),
   body[data-theme="dark"],
   html[data-theme="dark"] {
     background-color: var(--brand-blue);
-  }
+  } */
 
   /* CMS toolbar spacing when editing */
   .cms-toolbar-expanded .site-header {
