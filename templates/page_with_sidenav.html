@@ -1,5 +1,5 @@
 {% extends "base_ndt.html" %}
-{% load cms_tags %}
+{% load cms_tags menu_tags %}
 
 {% block wrapper_class %} nav-top--false{% endblock %}
 
@@ -7,6 +7,7 @@
 
 {% block page_header %}
 <div class="page-header">
+  {% show_breadcrumb 0 "includes/breadcrumb.html" %}
   <div class="page-title-wrapper">
     <h1 class="page-title">{% page_attribute "page_title" %}</h1>
   </div>
