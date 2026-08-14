@@ -65,6 +65,7 @@ THIRD_PARTY_APPS = [
     "sekizai",
     "filer",
     "easy_thumbnails",
+    "djangocms_versioning",
     "djangocms_text",
     "djangocms_link",
     "djangocms_alias",
