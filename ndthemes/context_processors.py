@@ -2,6 +2,7 @@ import datetime
 
 from .models import ArchivePageExtension, DateTime, Location, Setting
 from .utils import page_is_self_or_ancestor, pages_with_template
+from cms.models.contentmodels import PageContent
 
 
 def navigation_tree(request):
@@ -125,7 +126,12 @@ def page_data(request):
         return {}
 
     context = {}
-    placeholders = current_page.get_placeholders(request.LANGUAGE_CODE)
+    try:
+        placeholders = current_page.get_placeholders(request.LANGUAGE_CODE)
+    except PageContent.DoesNotExist:
+        # If there is no versioned content for the current language, default to an empty list
+        # or attempt to get fallbacks if your logic requires it.
+        placeholders = []
 
     datetime_obj = DateTime.objects.filter(placeholder__in=placeholders).first()
     if datetime_obj:
