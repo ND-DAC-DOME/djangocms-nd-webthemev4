@@ -1,0 +1,30 @@
+---
+description: Require live browser testing and screenshots for every UI milestone — no code-only acceptance
+alwaysApply: true
+---
+
+# Browser verification (mandatory)
+
+For this project, **do not mark UI or feature work complete from code review alone**.
+
+## Required workflow
+
+After any change that affects rendered pages, templates, plugins, CSS, or JS:
+
+1. Ensure the local app is running (e.g. `http://localhost:8000`).
+2. Open the Cursor browser MCP, navigate to the affected URL(s).
+3. Take a **screenshot** and inspect the rendered UI (layout, typography, NDT4 styling, breakage).
+4. Verify **desktop (~1280px+)** and **mobile (~375px)** viewports.
+5. Exercise interactive bits (search, nav, accordion, dialogs, tabs, CMS edit UI as relevant).
+6. Confirm NDT **4.0** assets load (`…/ndt/4.0/ndt.css`, `…/ndt/4.0/ndt.js`), not 3.0.
+7. When implementing NDT components/plugins, open the matching [Storybook](https://webtheme.nd.edu/) story and compare.
+
+## Not sufficient by themselves
+
+- Reading templates or CSS without loading the page
+- `manage.py check` / unit tests alone
+- Assuming CDN/theme markup is correct without a render
+
+## Milestone gate
+
+A milestone is incomplete until live browser review (above) passes and defects found are fixed.

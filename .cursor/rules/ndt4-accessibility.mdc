@@ -1,0 +1,33 @@
+---
+description: NDT4 accessibility and usability requirements from Foundation docs
+alwaysApply: true
+---
+
+# NDT4 Accessibility
+
+Follow [Foundation / Accessibility](https://webtheme.nd.edu/?path=/docs/foundation-accessibility--docs) and WCAG 2.0/2.1 AA for contrast.
+
+## Visual
+
+- Do not convey meaning with color alone; underline links and use distinct colors.
+- Provide meaningful `alt` text for images (empty alt only for decorative images).
+- Use logical heading order (`h1` → `h2` → …); do not skip levels for styling.
+- Link text must provide context — never “click here” or bare “read more”.
+
+## Contrast and type
+
+- Normal text: contrast ≥ 4.5:1; large text (≥24px or ≥18.66px bold): ≥ 3:1.
+- Do not override NDT default font colors.
+- Prefer left-aligned body copy; centered text hurts readability.
+
+## Interaction and media
+
+- Interactive controls need adequate target size for mobility impairments.
+- Support keyboard navigation; do not rely on mouse-only affordances.
+- Videos need captions when audio carries meaning.
+- Prefer plain language over jargon when possible.
+
+## Motion
+
+- Wrap custom animation CSS in `@media (prefers-reduced-motion: no-preference)`.
+- Prefer NDT `.animate` / `.animate--*` classes from `animate.css` when motion is needed.

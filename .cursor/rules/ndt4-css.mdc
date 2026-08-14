@@ -1,0 +1,51 @@
+---
+description: NDT4 CSS cascade layers, tokens, breakpoints, and site overrides
+globs: "**/*.{css,scss}"
+alwaysApply: false
+---
+
+# NDT4 CSS
+
+Follow [CSS Layers](https://webtheme.nd.edu/?path=/docs/foundation-css-layers--docs), [Colors](https://webtheme.nd.edu/?path=/docs/foundation-colors--docs), [Breakpoints](https://webtheme.nd.edu/?path=/docs/foundation-responsive-breakpoints--docs), and [Animations](https://webtheme.nd.edu/?path=/docs/foundation-animations--docs).
+
+## Cascade layers
+
+NDT4 layer order:
+
+```css
+@layer base, theme, utilities, print, site;
+```
+
+- Theme ships styles in `base`, `theme`, `utilities`, and `print`.
+- **`site` is reserved for this project’s custom CSS.** Put all overrides inside `@layer site { … }`.
+- Do not fight theme specificity outside `@layer site`.
+
+## Tokens
+
+Prefer CSS custom properties from the theme, for example:
+
+- Brand: `--brand-blue`, `--brand-gold`, `--brand-green`, `--sky-blue`, `--warm-white`, `--link-blue`
+- Fonts: `--font-default` (GP / Polaris), `--font-heading` (Garamond-Pro)
+- Layout: `--grid-gap`, gutter variables
+
+Background utilities use `.bg--{token}`, plus `.bg--full-bleed`, `.bg--gradient`, `.bg--transparent`, `.bg--to-*` direction modifiers. Support light/dark via `data-theme` / `.mode--dark` as provided by the theme.
+
+## Breakpoints (mobile-first)
+
+| Token | Min width |
+|-------|-----------|
+| xs | default (&lt; 480px) — no media query |
+| sm | ≥ 30em (480px) |
+| md | ≥ 48em (768px) |
+| ml | ≥ 60em (960px) |
+| lg | ≥ 80em (1280px) |
+| xl | ≥ 90em (1440px) |
+| xxl | ≥ 100em (1600px) |
+
+Write custom media queries in the same mobile-first style.
+
+## Animations
+
+- Include `animate.css` only when using motion classes.
+- Prefer `.animate` + `.animate--fade-in*` / `.animate--move-*`.
+- Keep motion short and purposeful; respect `prefers-reduced-motion`.

@@ -1,0 +1,39 @@
+---
+description: Notre Dame Web Theme v4 (NDT4) foundation — CDN assets, brand tokens, prefer theme classes over custom CSS
+alwaysApply: true
+---
+
+# NDT4 Foundation
+
+When building or reviewing UI for this project, follow the [NDT4 Foundation](https://webtheme.nd.edu/?path=/docs/foundation-about-foundation--docs) design system.
+
+## Required theme assets
+
+Load these (do not use NDT 3.0 paths):
+
+```html
+<link rel="stylesheet" href="https://conductor.nd.edu/stylesheets/themes/ndt/4.0/ndt.css">
+<script src="https://conductor.nd.edu/javascripts/themes/ndt/4.0/ndt.js"></script>
+```
+
+Optional animations stylesheet (after `ndt.css`):
+
+```html
+<link rel="stylesheet" href="https://conductor.nd.edu/stylesheets/themes/ndt/4.0/animate.css">
+```
+
+Fonts are loaded by `ndt.css` from `static.nd.edu` (Garamond Premier Pro + Galaxie Polaris). Do not substitute Inter/Roboto/system stacks for brand UI.
+
+## Prefer theme over custom
+
+- Compose pages with documented NDT classes and CSS variables — do not invent parallel design tokens.
+- Brand Blue / Brand Gold are primary; secondary/tertiary colors ≤ ~25% of a page’s color usage.
+- Do not alter default theme font colors (accessibility).
+- Site-specific CSS belongs in `@layer site` only (see `ndt4-css` rule).
+- For detailed class lists and workflows, use the project skill `ndt4-foundation`.
+
+## Storybook references
+
+- Foundation: https://webtheme.nd.edu/?path=/docs/foundation-about-foundation--docs
+- Components: https://webtheme.nd.edu/?path=/docs/components-about-components--docs
+- Getting Started: https://webtheme.nd.edu/?path=/docs/getting-started--docs

@@ -1,0 +1,58 @@
+---
+description: NDT4 HTML template markup — grid, typography, theme classes, utilities
+globs: "**/templates/**/*.html,**/*.html"
+alwaysApply: false
+---
+
+# NDT4 Templates
+
+Follow Foundation [Grid](https://webtheme.nd.edu/?path=/docs/foundation-grid--docs), [Typography](https://webtheme.nd.edu/?path=/docs/foundation-typography--docs), [Utilities](https://webtheme.nd.edu/?path=/docs/foundation-utilities--docs), and Component Storybook markup.
+
+## Layout skeleton
+
+Prefer the NDT page chrome structure:
+
+- `header.site-header` / `footer.site-footer`
+- `section.wrapper` → `main.site-content`
+- Optional `page-primary`, `page-sidebar`, `page-secondary`
+
+## Grid
+
+```html
+<div class="grid grid-sm-2 grid-md-3">
+  <div>…</div>
+</div>
+```
+
+- Column modifiers: `.grid-{xs|sm|md|ml|lg|xl|xxl}-{1-6}`
+- Span: `.span-{bp}-{n}`, full row: `.span-full` or `.full`
+- Order: `.order-{bp}-{n}`
+- Gaps: `.grid-gap-{xs|sm|md|lg|xl}`, or `.no-gap`
+
+## Typography
+
+- Headings / page titles / blockquotes: `--font-heading` (Garamond) via theme heading styles
+- Body, site title, card titles, news/events snippets: `--font-default` (GP)
+- Heading colors in body copy: Brand Blue or Dark Gray only (white on dark backgrounds)
+- Aim for ~70 characters per line for body copy
+- Page titles: `.page-title` / `.page-title--{xs|sm|md|lg|xl}` or `data-length`
+
+## Theme class conventions (v4)
+
+Prefer BEM-style modifiers from NDT4 (not v3 names):
+
+- Buttons: `.btn`, `.btn--cta`, `.btn--secondary`, `.btn--more`, …
+- Cards: `.card`, `.card--event`, `.card--news`, `.card--person`, `.card--featured`, …
+- Backgrounds: `.bg--brand-blue`, `.bg--full-bleed`, …
+- Sections: `.section`, `.section-media`, `.section-content`, …
+
+Match Storybook HTML when implementing Components/Collections.
+
+## Icons and search
+
+- Icons: `<span class="icon" data-icon="…"></span>` (hydrated by `ndt.js`)
+- Site search forms: `.search-form`, `.search-input`, `.search-button` (for theme JS hooks)
+
+## Utilities
+
+Use theme utilities for spacing (`.m-*`, `.p-*`, logical `mbs`/`mie` variants), visibility (`.visually-hidden`, `.hidden`), display/flex, text alignment (`.text-start` preferred for body), and column helpers (`.col--md`, `.col--screen`). Prefer these over one-off CSS.
